@@ -148,7 +148,7 @@ function validateForm() { // -----main validation function FOR SIGN UP PAGE!!!!!
     if (emailResult && passwordResult && rePasswordResult && nameResult && mobileResult && ageResult && genderResult) {
         console.log("if all functions are true, main function is true and here are some cookies");
         makeCookie();
-        return true; // ----if all fields are correct submit form
+        return false; // ----if all fields are correct submit form
     }
     return false; // ----if either are not true do not submit
 }
@@ -169,6 +169,7 @@ function validateForm1() { // ----main validation function FOR LOG IN PAGE !!!!!
 
 // ------ cookies
 function makeCookie() {
+    console.log("cookie making function");
     var name = document.forms["myForm"]["name"].value;
     var email = document.forms["myForm"]["email"].value;
     var mobile = document.forms["myForm"]["mobile"].value;
@@ -177,14 +178,16 @@ function makeCookie() {
     var male = document.getElementById("male");
     var password = document.forms["myForm"]["password"].value;
     var repassword = document.forms["myForm"]["repassword"].value;
+    console.log("if statement for gender cookie");
 
     if (female.checked) {
         var gender = "female"
     }
     else if (male.checked) {
-        var gender = ""
+        var gender = "male"
     }
-    //
+
+    console.log("before big ass cookie");
     //document.cooke = "cookies=" + JSON.stringify({
     //        name1: name,
     //        email1: email,
@@ -195,18 +198,28 @@ function makeCookie() {
     //        repassword1: repassword
     //    });
 
-    document.cookie = "name =" + name; //expires=Thu, 25 Feb 2016 24:00:00 UTC;
-    document.cookie = "email =" + email ;
-    document.cookie = "mobile =" + mobile ;
-    document.cookie = "age =" + age ;
-    document.cookie = "gender =" + gender;
-    document.cookie = "password =" + password ;
-    document.cookie = "re-password =" + repassword ;
+    //document.cookie = "name =" + name; //expires=Thu, 25 Feb 2016 24:00:00 UTC;
+    //document.cookie = "email =" + email ;
+    //document.cookie = "mobile =" + mobile ;
+    //document.cookie = "age =" + age ;
+    //document.cookie = "gender =" + gender;
+    //document.cookie = "password =" + password ;
+    //document.cookie = "re-password =" + repassword ;
+
+    var innerCookie = {
+        name1: name,
+        email1: email,
+        mobile1: mobile,
+        age1: age,
+        gender1: gender,
+        password1: password,
+        repassword1: repassword
+    };
+    console.log(JSON.stringify(innerCookie));
+    document.cookie = "myCookie=" + JSON.stringify(innerCookie);
+    console.log("one big asscookie")
 }
 
 
-//function makeCookie(key, value) {
-//    document.cookie = key + '=' + value;
-//}
-//
-//makeCookie('name', document.forms["myForms"]["name"].value);
+
+
