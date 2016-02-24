@@ -148,7 +148,7 @@ function validateForm() { // -----main validation function FOR SIGN UP PAGE!!!!!
     if (emailResult && passwordResult && rePasswordResult && nameResult && mobileResult && ageResult && genderResult) {
         console.log("if all functions are true, main function is true and here are some cookies");
         makeCookie();
-        return false; // ----if all fields are correct submit form
+        return true; // ----if all fields are correct submit form
     }
     return false; // ----if either are not true do not submit
 }
@@ -162,15 +162,14 @@ function validateForm1() { // ----main validation function FOR LOG IN PAGE !!!!!
 
     if (emailResult && passwordResult) {
         console.log("if all functions are true, main function is true");
-        return true; // if all fields are correct submit form
+        return true; // ----if all fields are correct submit form
     }
-    return false; // if either are not true do not submit
+    return false; // ----if either are not true do not submit
 }
 
-// ------ cookies
-function makeCookie() {
+function makeCookie() { // ---- function that makes cookies
     console.log("cookie making function");
-    var name = document.forms["myForm"]["name"].value;
+    var name = document.forms["myForm"]["name"].value; // ----setting variable values for form fields
     var email = document.forms["myForm"]["email"].value;
     var mobile = document.forms["myForm"]["mobile"].value;
     var age = document.forms["myForm"]["age"].value;
@@ -178,17 +177,28 @@ function makeCookie() {
     var male = document.getElementById("male");
     var password = document.forms["myForm"]["password"].value;
     var repassword = document.forms["myForm"]["repassword"].value;
-    console.log("if statement for gender cookie");
 
-    if (female.checked) {
+
+    if (female.checked) { // ----- if statement for the gender radio buttons cookie
         var gender = "female"
     }
     else if (male.checked) {
         var gender = "male"
     }
 
-    console.log("before big ass cookie");
-    //document.cooke = "cookies=" + JSON.stringify({
+    var innerCookie = { // ------ make an object innCookie so that can put all into one big cookie
+        name1: name,
+        email1: email,
+        mobile1: mobile,
+        age1: age,
+        gender1: gender,
+        password1: password,
+        repassword1: repassword
+    };
+    document.cookie = "myCookie=" + JSON.stringify(innerCookie); // ----- adds "myCookie" to the values that are now stores as array
+    console.log("after made cookies");
+
+//document.cooke = "cookies=" + JSON.stringify({
     //        name1: name,
     //        email1: email,
     //        mobile1: mobile,
@@ -205,19 +215,6 @@ function makeCookie() {
     //document.cookie = "gender =" + gender;
     //document.cookie = "password =" + password ;
     //document.cookie = "re-password =" + repassword ;
-
-    var innerCookie = {
-        name1: name,
-        email1: email,
-        mobile1: mobile,
-        age1: age,
-        gender1: gender,
-        password1: password,
-        repassword1: repassword
-    };
-    console.log(JSON.stringify(innerCookie));
-    document.cookie = "myCookie=" + JSON.stringify(innerCookie);
-    console.log("one big asscookie")
 }
 
 
