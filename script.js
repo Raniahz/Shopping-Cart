@@ -2,164 +2,230 @@
  * Created by lamppostgroup on 2/15/16.
  */
 
+
 function validateName() { // ----validate name function
-    console.log("name validation");
+    console.log("name validation:");
     var name = document.forms["myForm"]["name"].value;
+    var nameErr = document.getElementById('nameErr');
 
     if (!name) { // ----check anything in name field
-        document.getElementById('errName').innerHTML = "must enter name"; // -----error message 1 for name
         console.log("name has no value");
-        return false; // ----will return false if no value
+        return { // ---- if false returns object
+            field: nameErr,
+            message: "name field must be filled out"
+        };
     }
     console.log("name is right");
-    document.getElementById('errName').innerHTML = ""; // ----clear the name message if it is correct
-    return true; // ----return if name has value
+    //document.getElementById('errName').innerHTML = ""; // ----clear the name message if it is correct
+    return undefined; // ----return if name has value
 }
 
 function validateEmail() { // -----validate email function
-    console.log("email validation");
+    console.log("email validation:");
     var email = document.forms["myForm"]["email"].value;
+    var emailErr = document.getElementById('errEmail');
     var atsign = email.indexOf("@");
     var period = email.lastIndexOf("."); // ----variable assignment
 
     if (!email) { // check that email has a value
-        document.getElementById('errEmail').innerHTML = "must enter email address"; // -----error message 1 for email
+
         console.log("email has no value");
-        return false; // ----if no value will be false
+        return { // ---- if false returns object
+            field: emailErr,
+            message: "email field must be filled out"
+        };
     }
     else if (atsign < 1 || period < atsign + 2 || period + 2 >= email.length) {  // ----check if email field is correct
-        document.getElementById('errEmail').innerHTML = "not a valid email address"; // ----error message 2 for email
-        console.log("email has right characters");
-        return false; // ----if characters are wrong will be false
+        //  document.getElementById('errEmail').innerHTML = "not a valid email address"; // ----error message 2 for email
+        console.log("email doesnt have right characters");
+        return { // ---- if false returns object
+            field: emailErr,
+            message: "email is not valid"
+        };
     }
     console.log("email is right");
-    document.getElementById('errEmail').innerHTML = ""; // ----clear the email message if it is correct
-    return true; // ----if email has value and correct characters it is true
+    return undefined; // ----if email has value and correct characters it is true
 }
 
 function validateMobile() { // -----validate phone number field
-    console.log("mobile validation");
+    console.log("mobile validation:");
     var mobile = document.forms["myForm"]["mobile"].value;
+    var mobileErr = document.getElementById('errMobile');
 
     if (!mobile) { // -----check if anything in mobile field
-        document.getElementById('errMobile').innerHTML = "must enter mobile number"; // ----error message 1 for mobile
         console.log("mobile has no value");
-        return false; // will return false if no value
+        return { // ---- if false returns object
+            field: mobileErr,
+            message: "mobile field must be filled out"
+        };
     }
     else if (mobile.length < 10 || mobile.length > 10) { // -----make sure mobile is 10 digits
-        document.getElementById('errMobile').innerHTML = "must be 10 digits"; // error message 2 for mobile
         console.log("mobile not right length");
-        return false; // will return false if mobile is not correct length
+        return { // ---- if false returns object
+            field: mobileErr,
+            message: "mobile not right length"
+        };
     }
     else if (isNaN(mobile)) { // ----check to make sure only numbers
-        document.getElementById('errMobile').innerHTML = "must use only numbers"; // ----error message 3 for mobile
         console.log("mobile not right  characters");
-        return false; // ----will return false if mobile is not right characters
+        return { // ---- if false returns object
+            field: mobileErr,
+            message: "mobile is not number"
+        };
     }
     console.log("mobile is right");
-    document.getElementById('errMobile').innerHTML = ""; // ----clear the Mobile message if it is correct
-    return true; // -----if mobile has value and is right length will be true
+    return undefined; // -----if mobile has value and is right
 }
 
 function validateAge() { // -----validate age field
-    console.log("age validation");
+    console.log("age validation:");
     var age = document.forms["myForm"]["age"].value;
+    var ageErr = document.getElementById('errAge');
+
     if (!age) { // ------check if anything in age field
-        document.getElementById('errAge').innerHTML = "must enter age"; // ----error message 1 for mobile
         console.log("age has no value");
-        return false;
+        return { // ---- if false returns object
+            field: ageErr,
+            message: "age field must be filled out"
+        };
     }
     else if (isNaN(age)) { // ------check to make sure age is number
-        document.getElementById('errAge').innerHTML = "must enter a number"; // ------error message 1 for mobile
         console.log("age is not a number");
-        return false;
+        return { // ---- if false returns object
+            field: ageErr,
+            message: "age is not a number"
+        };
     }
     else if (age.length > 3) { // -----check to make sure is no bigger than 3 characters
-        document.getElementById('errAge').innerHTML = "must be between 1 and 3 characters"; // -----error message 1 for mobile
         console.log("age not correct length");
-        return false;
+        return { // ---- if false returns object
+            field: ageErr,
+            message: "age is not valid, cannot use more than 3 characters"
+        };
     }
     console.log("age is right");
-    document.getElementById('errAge').innerHTML = ""; // -----clear the Age message if it is correct
-    return true;
+    return undefined;
 }
 
-function validateGender() {
+function validateGender() { // ----- validate gender field
+    console.log("gender validation:");
     var female = document.getElementById("female");
     var male = document.getElementById("male");
+    var genderErr = document.getElementById('errGender');
+
     if ((female.checked == false) && (male.checked == false)) {
-        document.getElementById('errGender').innerHTML = "choose female or male"; // -----clear the Gender message if it is correct
         console.log("gender validation not true");
-        return false;
+        return { // ---- if false returns object
+            field: genderErr,
+            message: "gender must be checked"
+        };
     }
-    document.getElementById('errGender').innerHTML = ""; // -----clear the Gender message if it is correct
-    return true;
+    return undefined;
 }
 
 function validatePassword() { // ----validate password function
-    console.log("password validation");
+    console.log("password validation:");
     var password = document.forms["myForm"]["password"].value;
+    var passwordErr = document.getElementById('errPassword');
 
     if (!password) { // ----check if   anything in password field
-        document.getElementById('errPassword').innerHTML = "must enter a password"; // ----error message 1 for password
         console.log('password has no value');
-        return false; //----will return false if no value
+        return { // ---- if false returns object
+            field: passwordErr,
+            message: "must enter password"
+        };
     }
     else if (password.length <= 6 || password.length >= 12) {   // ----check if password field is correct
-        document.getElementById('errPassword').innerHTML = "password between 6 and 12 characters"; // ----error message 2 for password
         console.log("password is not correct length");
-        return false; // ----will return false if the length is wrong
+        return {  // ---- if false returns object
+            field: passwordErr,
+            message: "password is not correct length"
+        };
     }
     console.log("password is correct");
-    document.getElementById('errPassword').innerHTML = ""; // ----clear the password message of it is correct
-    return true; // ----if password has value and is correct length it will be true
+    return undefined; // ----if password has value and is correct length it will be true
 }
 
 function validateRepassword() { // ----validation re-password function
-    console.log("RE-password validation");
+    console.log("RE-password validation:");
     var rePassword = document.forms["myForm"]["repassword"].value;
     var password = document.forms["myForm"]["password"].value;
+    var rePasswordErr = document.getElementById('errRepassword');
+
     if (!rePassword) {
-        document.getElementById('errRepassword').innerHTML = "must re-enter a password"; // ----error message 1 for REpassword
         console.log('REpassword has no value');
-        return false; // ----will return false if no value
+        return { // ---- if false returns object
+            field: rePasswordErr,
+            message: "must re-enter password"
+        };
     }
     else if (rePassword !== password) {
-        document.getElementById('errRepassword').innerHTML = "password must match";  // ----error message 2 for REpassword
         console.log('REpassword does not match password');
-        return false; // ----will return false if no value
+        return { // ---- if false returns object
+            field: rePasswordErr,
+            message: "passwords do not match"
+        };
     }
     console.log("REpassword is correct");
-    document.getElementById('errRepassword').innerHTML = ""; // ----clear the REpassword message if it is correct
-    return true;
+    return undefined;
 }
 
-function validateForm() { // -----main validation function FOR SIGN UP PAGE!!!!!!
-    console.log("main validation function");
-    var nameResult = validateName(); // ----setting variable for name function
-    var emailResult = validateEmail(); // -----setting variable for email function
-    var mobileResult = validateMobile(); // ----setting variable for mobile function
-    var ageResult = validateAge(); // ----setting variable for age function
-    var genderResult = validateGender();
-    var passwordResult = validatePassword(); // -----setting variable for password function
-    var rePasswordResult = validateRepassword(); // -----setting variable for RE-password function
-    console.log("after give validation functions variable names");
+function validateSignUpForm() { // -----main validation function FOR SIGN UP PAGE!!!!!!
+    var errors = [];
+    console.log("main validation function:");
+    var nameRes = validateName(); // ----setting variable for name function
+    var emailRes = validateEmail(); // -----setting variable for email function
+    var mobileRes = validateMobile(); // ----setting variable for mobile function
+    var ageRes = validateAge(); // ----setting variable for age function
+    var genderRes = validateGender();
+    var passRes = validatePassword(); // -----setting variable for password function
+    var rePassRes = validateRepassword(); // -----setting variable for RE-password function
 
-    if (emailResult && passwordResult && rePasswordResult && nameResult && mobileResult && ageResult && genderResult) {
-        console.log("if all functions are true, main function is true and here are some cookies");
-
-        storeValues(); // ----   FUNCTION THAT SAYS HEY THIS IS RIGHT, STORE COOKIES
-        return false; // ----if all fields are correct submit form
+    if (nameRes) {
+        errors.push(nameRes);
+        console.log("error is found")
     }
-    return false; // ----if either are not true do not submit
+    if (emailRes) {
+        errors.push(emailRes);
+        console.log("error is found")
+    }
+    if (mobileRes) {
+        errors.push(mobileRes);
+        console.log("error is found")
+    }
+    if (ageRes) {
+        errors.push(ageRes);
+        console.log("error is found")
+    }
+    if (genderRes) {
+        errors.push(genderRes);
+        console.log("error is found")
+    }
+    if (passRes) {
+        errors.push(passRes);
+        console.log("error is found")
+    }
+    if (rePassRes) {
+        errors.push(rePassRes);
+        console.log("error is found")
+    }
+
+    if (errors.length == 0) {
+        storeValues();
+        return true
+    }
+    console.log(JSON.stringify(errors));
+
+        for (var i = 0; i < errors.length; i++) {
+            errors[i].field.innerHTML = errors[i].message;
+        }
+        return false
 }
 
-function validateForm1() { // ----main validation function FOR LOG IN PAGE !!!!!
-    console.log("main validation function");
+function validateLogInForm() { // ----main validation function FOR LOG IN PAGE !!!!!
+    console.log("main validation function:");
     var emailResult = validateEmail(); // -----setting variable for email function
     var passwordResult = validatePassword(); // ----setting variable for password function
-
-    console.log("after give validation functions variable names");
 
     if (emailResult && passwordResult) {
         console.log("if all functions are true, main function is true");
@@ -169,29 +235,27 @@ function validateForm1() { // ----main validation function FOR LOG IN PAGE !!!!!
 }
 
 function setCookie(cname, cvalue, date) { // ---- function that makes cookies
-    console.log("cookie making function");
     // var today = new Date(); // ---- time expiration for cookie
     //d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = '';
+
     if (date) {
         expires = "expires=" + date.toUTCString();
     }
     document.cookie = cname + "=" + cvalue; //+ ";" + expires;
-    console.log("this is the cookie");
+    console.log("this is the cookie:");
     console.log(document.cookie); // ---- will print the cookie object
 }
+
 function getCookie(cname) {
     if (cname) {
         var firstSplit = document.cookie.split(";");
         console.log(firstSplit);
         for (var i = 0; i < firstSplit.length; i++) {
-            console.log("for statement");
             if (firstSplit[i].indexOf(cname) != -1) {
-                console.log("if statment");
                 var secondSplit = firstSplit[i].split("=");
                 console.log(secondSplit);
                 console.log(secondSplit[i + 1]);
-                // console.log("value", secondSplit[i + 1]);
                 return secondSplit[i + 1];
             }
         }
@@ -209,13 +273,13 @@ function storeValues() {
     var male = document.getElementById("male");
     var password = document.forms["myForm"]["password"].value;
     var repassword = document.forms["myForm"]["repassword"].value;
+
     if (female.checked) { // ----- if statement for the gender radio buttons cookie
         var gender = "female";
     }
     else if (male.checked) {
         gender = "male";
     }
-    console.log("variables are defined above, the user object is about to be");
     var user = {
         "name": name,
         "email": email,
@@ -227,6 +291,7 @@ function storeValues() {
     };
     console.log("the get cookie function is called now");
     var cook = getCookie("users");
+
     if (cook) {
         var array = JSON.parse(cook);
         array.push(user);
@@ -234,16 +299,14 @@ function storeValues() {
     } else {
         var cookieArray = [];
         cookieArray.push(user);
-        console.log(cookieArray);
         var cookieArrayString = JSON.stringify(cookieArray);
         setCookie("users", cookieArrayString);
     }
-
-    //done
+    //fucking done
 }
 
 
-//var name = document.forms["myForm"]["name"].value; // ----setting variable values for form fields
+//var name = document.forms["myForm"]["name"].value; //
 //var email = document.forms["myForm"]["email"].value;
 //var mobile = document.forms["myForm"]["mobile"].value;
 //var age = document.forms["myForm"]["age"].value;
