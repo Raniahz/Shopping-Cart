@@ -147,8 +147,9 @@ function validateForm() { // -----main validation function FOR SIGN UP PAGE!!!!!
 
     if (emailResult && passwordResult && rePasswordResult && nameResult && mobileResult && ageResult && genderResult) {
         console.log("if all functions are true, main function is true and here are some cookies");
-        makeCookie();
-        return true; // ----if all fields are correct submit form
+
+        storeValues(); // ----   FUNCTION THAT SAYS HEY THIS IS RIGHT, STORE COOKIES
+        return false; // ----if all fields are correct submit form
     }
     return false; // ----if either are not true do not submit
 }
@@ -167,8 +168,39 @@ function validateForm1() { // ----main validation function FOR LOG IN PAGE !!!!!
     return false; // ----if either are not true do not submit
 }
 
-function makeCookie() { // ---- function that makes cookies
+function setCookie(cname, cvalue, date) { // ---- function that makes cookies
     console.log("cookie making function");
+    // var today = new Date(); // ---- time expiration for cookie
+    //d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = '';
+    if (date) {
+        expires = "expires=" + date.toUTCString();
+    }
+    document.cookie = cname + "=" + cvalue; //+ ";" + expires;
+    console.log("this is the cookie");
+    console.log(document.cookie); // ---- will print the cookie object
+}
+function getCookie(cname) {
+    if (cname) {
+        var firstSplit = document.cookie.split(";");
+        console.log(firstSplit);
+        for (var i = 0; i < firstSplit.length; i++) {
+            console.log("for statement");
+            if (firstSplit[i].indexOf(cname) != -1) {
+                console.log("if statment");
+                var secondSplit = firstSplit[i].split("=");
+                console.log(secondSplit);
+                console.log(secondSplit[i + 1]);
+                // console.log("value", secondSplit[i + 1]);
+                return secondSplit[i + 1];
+            }
+        }
+    }
+    return null
+}
+
+function storeValues() {
+    console.log("the store value function is being called");
     var name = document.forms["myForm"]["name"].value; // ----setting variable values for form fields
     var email = document.forms["myForm"]["email"].value;
     var mobile = document.forms["myForm"]["mobile"].value;
@@ -177,46 +209,109 @@ function makeCookie() { // ---- function that makes cookies
     var male = document.getElementById("male");
     var password = document.forms["myForm"]["password"].value;
     var repassword = document.forms["myForm"]["repassword"].value;
-
-
     if (female.checked) { // ----- if statement for the gender radio buttons cookie
-        var gender = "female"
+        var gender = "female";
     }
     else if (male.checked) {
-        var gender = "male"
+        gender = "male";
+    }
+    console.log("variables are defined above, the user object is about to be");
+    var user = {
+        "name": name,
+        "email": email,
+        "mobile": mobile,
+        "age": age,
+        "gender": gender,
+        "password": password,
+        "reppasword": repassword
+    };
+    console.log("the get cookie function is called now");
+    var cook = getCookie("users");
+    if (cook) {
+        var array = JSON.parse(cook);
+        array.push(user);
+        setCookie("users", JSON.stringify(array));
+    } else {
+        var cookieArray = [];
+        cookieArray.push(user);
+        console.log(cookieArray);
+        var cookieArrayString = JSON.stringify(cookieArray);
+        setCookie("users", cookieArrayString);
     }
 
-    var innerCookie = { // ------ make an object innCookie so that can put all into one big cookie
-        name1: name,
-        email1: email,
-        mobile1: mobile,
-        age1: age,
-        gender1: gender,
-        password1: password,
-        repassword1: repassword
-    };
-    document.cookie = "myCookie=" + JSON.stringify(innerCookie); // ----- adds "myCookie" to the values that are now stores as array
-    console.log("after made cookies");
-
-//document.cooke = "cookies=" + JSON.stringify({
-    //        name1: name,
-    //        email1: email,
-    //        mobile1: mobile,
-    //        age1: age,
-    //        gender1: gender,
-    //        password1: password,
-    //        repassword1: repassword
-    //    });
-
-    //document.cookie = "name =" + name; //expires=Thu, 25 Feb 2016 24:00:00 UTC;
-    //document.cookie = "email =" + email ;
-    //document.cookie = "mobile =" + mobile ;
-    //document.cookie = "age =" + age ;
-    //document.cookie = "gender =" + gender;
-    //document.cookie = "password =" + password ;
-    //document.cookie = "re-password =" + repassword ;
+    //done
 }
 
+
+//var name = document.forms["myForm"]["name"].value; // ----setting variable values for form fields
+//var email = document.forms["myForm"]["email"].value;
+//var mobile = document.forms["myForm"]["mobile"].value;
+//var age = document.forms["myForm"]["age"].value;
+//var female = document.getElementById("female");
+//var male = document.getElementById("male");
+//var password = document.forms["myForm"]["password"].value;
+//var repassword = document.forms["myForm"]["repassword"].value;
+//if (female.checked) { // ----- if statement for the gender radio buttons cookie
+//    var gender = "female";
+//}
+//else if (male.checked) {
+//    var gender = "male";
+//}
+//var innerCookie =  // ------ make an object innCookie so that can put all into one big cookie
+//{
+//    "user": [
+//        {
+//            name: name,
+//            email: email,
+//            mobile: mobile,
+//            age: age,
+//            gender: gender,
+//            password: password,
+//            repassword: repassword
+//        }
+//    ]
+//};
+//document.cookie = "user" + JSON.stringify(innerCookie); + expires.toUTCString(); // ----- adds "myCookie" to the values that are now stores as array
+//var loginCookie = document.cookie = "User logged in as:" + name + expires.toUTCString(); // ---- makes a cookie for user logging in '
+//console.log(loginCookie); // ---- will print the login cookie
+//userWelcome(); //---- calls the welcome heading function
+
+
+//function getCookie(propOfCookie) { // ----- This will be the function that gets cookies
+//    console.log("get cookie function is being applied");
+//    var cookieStr = document.cookie;
+//    var cookieValue = cookieStr.split(',');
+//    console.log(cookieValue);
+//
+//    for (var i = 0; i < cookieValue.length; i++) {
+//        console.log("the for statement");
+//        if (cookieValue[i].indexOf(propOfCookie) != -1) {
+//            console.log("the if statement");
+//            var newCookieValue = cookieValue[i].split(":");
+//            console.log("this is splitting the cookie by a colon");
+//            console.log(newCookieValue);
+//            console.log(newCookieValue[2].trim());
+//            continue
+//        }
+//        return false;
+//    }
+//}
+
+
+// ----- adding login welcome heading to main page
+//function userWelcome(){
+//    if()
+///}
+
+
+// ------ makes individual cookies for each log-in field
+//document.cookie = "name =" + name; //expires=Thu, 25 Feb 2016 24:00:00 UTC;
+//document.cookie = "email =" + email ;
+//document.cookie = "mobile =" + mobile ;
+//document.cookie = "age =" + age ;
+//document.cookie = "gender =" + gender;
+//document.cookie = "password =" + password ;
+//document.cookie = "re-password =" + repassword ;
 
 
 
