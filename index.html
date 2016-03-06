@@ -5,7 +5,7 @@
     <title>Cart</title>
     <link href='https://fonts.googleapis.com/css?family=Raleway|Roboto+Slab' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/mainstyles.css">
-<body>
+<body onload="welcome()">
 <!-- Wrapper around all of elements -------->
 <div class="wrapper">
 
@@ -20,9 +20,12 @@
                     <div class="drop-content">
                         <a href="login.html">Log In</a>
                         <a href="signup.html">Sign Up</a>
+                        <a href="index.html" onclick="">Log Out</a>
                     </div>
                 </li>
             </ul>
+
+            <div id="welcome"></div>
         </ul>
     </div>
 
@@ -37,10 +40,11 @@
     </div>
 <!----------------CONTENT  ------------->
     <div class="content">
-        <div id="logInWelcome"></div>
+
     </div>
 <!------------- FOOTER ----------------->
     <div class="footer"></div>
+    <script src="script.js"></script>
 </div>
 </body>
 </html>

@@ -216,29 +216,81 @@ function validateSignUpForm() { // -----main validation function FOR SIGN UP PAG
     }
     console.log(JSON.stringify(errors));
 
-        for (var i = 0; i < errors.length; i++) {
-            errors[i].field.innerHTML = errors[i].message;
-        }
-        return false
+    for (var i = 0; i < errors.length; i++) {
+        errors[i].field.innerHTML = errors[i].message;
+    }
+    return false
 }
 
 function validateLogInForm() { // ----main validation function FOR LOG IN PAGE !!!!!
+    var errors = [];
     console.log("main validation function:");
-    var emailResult = validateEmail(); // -----setting variable for email function
-    var passwordResult = validatePassword(); // ----setting variable for password function
+    var emailRes = validateEmail(); // -----setting variable for email function
+    var passRes = validatePassword(); // ----setting variable for password function
+    var email = document.forms["myForm"]["email"].value;
+    var password = document.forms["myForm"]["password"].value;
 
-    if (emailResult && passwordResult) {
-        console.log("if all functions are true, main function is true");
-        return true; // ----if all fields are correct submit form
+    if (emailRes) {
+        errors.push(emailRes);
+        console.log("error is found")
     }
-    return false; // ----if either are not true do not submit
+    if (passRes) {
+        errors.push(passRes);
+        console.log("error is found")
+    }
+    if (errors.length == 0) {
+        console.log("if no errors in error array");
+        var userString = getCookie("users");
+        var userObj = JSON.parse(userString);
+        for (i = 0; i < userObj.length; i++) {
+            console.log(userString);
+            console.log(userObj);
+            // console.log(userObj[i].email);
+            var userEmail = userObj[i].email;
+            var userPassword = userObj[i].password;
+            if (userEmail == email && userPassword == password) {
+                console.log('DID THIS EVEN HAPPEN IT MUST HAVE');
+                var logInCookieObj = JSON.stringify(userObj[i]);
+                setCookie("loggedIn", logInCookieObj);
+            }
+            else {
+                document.getElementById('messageArea').innerHTML = "make sure email/password are correct";
+                return false;
+            }
+        }
+        window.location.href = "/Cart/index.html";
+        //for (i = 0; i < userObj.length; i++) {
+        //    if () {
+        //        document.getElementById('welcome').innerHTML = "hello," + userObj[i].name;
+        //    }
+        //}
+        return false; // --- needs to be true to submit
+    }
+    //console.log(JSON.stringify(errors));
+    for (var i = 0; i < errors.length; i++) {
+        errors[i].field.innerHTML = errors[i].message;
+    }
+    return false;
+}
+
+function welcome(){
+    var cookieString = getCookie("loggedIn");
+    var obj = JSON.parse(cookieString);
+    var welcome = document.getElementById('welcome');
+    console.log(welcome);
+    if (welcome) {
+        welcome.innerHTML = "Hello," + obj.name;
+    }
+}
+
+function verifyLogIn() {
+    // document.getElementById('welcome').innerHTML = "hello," + userObj[i].name;
 }
 
 function setCookie(cname, cvalue, date) { // ---- function that makes cookies
-    // var today = new Date(); // ---- time expiration for cookie
-    //d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var now = new Date(); // ---- time expiration for cookie
+    now.setTime(now.getTime() + (365 * 24 * 60 * 60 * 1000));
     var expires = '';
-
     if (date) {
         expires = "expires=" + date.toUTCString();
     }
@@ -251,12 +303,14 @@ function getCookie(cname) {
     if (cname) {
         var firstSplit = document.cookie.split(";");
         console.log(firstSplit);
+        // console.log(firstSplit);
         for (var i = 0; i < firstSplit.length; i++) {
+            firstSplit[i] = firstSplit[i].trim();
             if (firstSplit[i].indexOf(cname) != -1) {
                 var secondSplit = firstSplit[i].split("=");
-                console.log(secondSplit);
-                console.log(secondSplit[i + 1]);
-                return secondSplit[i + 1];
+                //   console.log(secondSplit);
+                //   console.log(secondSplit[i + 1]);
+                return secondSplit[1];
             }
         }
     }
@@ -320,20 +374,6 @@ function storeValues() {
 //else if (male.checked) {
 //    var gender = "male";
 //}
-//var innerCookie =  // ------ make an object innCookie so that can put all into one big cookie
-//{
-//    "user": [
-//        {
-//            name: name,
-//            email: email,
-//            mobile: mobile,
-//            age: age,
-//            gender: gender,
-//            password: password,
-//            repassword: repassword
-//        }
-//    ]
-//};
 //document.cookie = "user" + JSON.stringify(innerCookie); + expires.toUTCString(); // ----- adds "myCookie" to the values that are now stores as array
 //var loginCookie = document.cookie = "User logged in as:" + name + expires.toUTCString(); // ---- makes a cookie for user logging in '
 //console.log(loginCookie); // ---- will print the login cookie
@@ -359,22 +399,5 @@ function storeValues() {
 //        return false;
 //    }
 //}
-
-
-// ----- adding login welcome heading to main page
-//function userWelcome(){
-//    if()
-///}
-
-
-// ------ makes individual cookies for each log-in field
-//document.cookie = "name =" + name; //expires=Thu, 25 Feb 2016 24:00:00 UTC;
-//document.cookie = "email =" + email ;
-//document.cookie = "mobile =" + mobile ;
-//document.cookie = "age =" + age ;
-//document.cookie = "gender =" + gender;
-//document.cookie = "password =" + password ;
-//document.cookie = "re-password =" + repassword ;
-
 
 

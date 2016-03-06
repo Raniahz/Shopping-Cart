@@ -15,7 +15,7 @@ html, body {
 .nav-container{
     background-color: #eee;
     height: 35px;
-    box-shadow: 1px 10px 14px -10px rgba(0, 0, 0, .2);
+    box-shadow: 0 8px 14px -10px rgba(0, 0, 0, .2);
 }
 .nav-right {
     float: right;
@@ -89,7 +89,7 @@ ul.navbar li a:hover{
     background-color: #EFEFEF;
     width: 150px;
     height: 350px;
-    box-shadow: 5px 5px 14px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 4px 4px 14px -5px rgba(0, 0, 0, 0.2);
 }
 /*--------VERTICLE NAV BAR-------------------------*/
 ul.vert-nav{

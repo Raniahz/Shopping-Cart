@@ -23,6 +23,7 @@
                         <div class="drop-content">
                             <a href="login.html">Log In</a>
                             <a href="signup.html">Sign Up</a>
+                            <a href="index.html">Log Out</a>
                         </div>
                     </li>
                 </ul>
@@ -49,9 +50,11 @@
                 <div id="errEmail"></div>
                 <p>Password:<br><input id="password" type="password" name="password"/></p>
                 <div id="errPassword"></div>
-                <input class=log-sub-button type="submit" value="submit" name="button"/>
+                <input class=log-sub-button onclick="verifyLogIn()" type="submit" value="submit" name="button"/>
                 <a id="forgot" class="password" href="#"><p>Forgot Password</p></a>
             </form>
+            <div id="messageArea"></div>
+
         </div>
     </div>
 

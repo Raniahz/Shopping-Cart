@@ -16,7 +16,7 @@ html, body {
 .nav-container {
     background-color: #eee;
     height: 35px;
-    box-shadow: 1px 10px 14px -10px rgba(0,0,0,.2);
+    box-shadow: 0 8px 14px -10px rgba(0,0,0,.2);
 }
 .nav-right {
     float: right;
@@ -36,7 +36,7 @@ li a {
     color: black;
     text-decoration: none;
     display: inline-block;
-    width: 50%;
+    /*width: 50%;*/
     height: 100%;
 }
 /* ---- NAV BAR HOVER -------*/
