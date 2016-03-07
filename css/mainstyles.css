@@ -39,6 +39,13 @@ ul.navbar li a {
 li.dropdown{
     list-style-type: none
 }
+#welcome{
+    display: inline;
+    float: right;
+    padding-top: 10px;
+    font-size: 20px;
+}
+
 /* -------- NAV BAR HOVER ------------*/
 ul.navbar li a:hover{
     color: #2E5077;

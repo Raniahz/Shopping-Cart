@@ -251,7 +251,7 @@ function validateLogInForm() { // ----main validation function FOR LOG IN PAGE !
             if (userEmail == email && userPassword == password) {
                 console.log('DID THIS EVEN HAPPEN IT MUST HAVE');
                 var logInCookieObj = JSON.stringify(userObj[i]);
-                setCookie("loggedIn", logInCookieObj);
+                setCookie("loggedIn", logInCookieObj, 5);
             }
             else {
                 document.getElementById('messageArea').innerHTML = "make sure email/password are correct";
@@ -283,18 +283,15 @@ function welcome(){
     }
 }
 
-function verifyLogIn() {
-    // document.getElementById('welcome').innerHTML = "hello," + userObj[i].name;
-}
 
-function setCookie(cname, cvalue, date) { // ---- function that makes cookies
+function setCookie(cname, cvalue, days) { // ---- function that makes cookies
     var now = new Date(); // ---- time expiration for cookie
-    now.setTime(now.getTime() + (365 * 24 * 60 * 60 * 1000));
+    now.setTime(now.getTime() + (days* 24 * 60 * 60 * 1000));
     var expires = '';
-    if (date) {
-        expires = "expires=" + date.toUTCString();
+    if (days) {
+        expires = "expires=" + now.toUTCString();
     }
-    document.cookie = cname + "=" + cvalue; //+ ";" + expires;
+    document.cookie = cname + "=" + cvalue + ";" + expires;
     console.log("this is the cookie:");
     console.log(document.cookie); // ---- will print the cookie object
 }
@@ -349,16 +346,20 @@ function storeValues() {
     if (cook) {
         var array = JSON.parse(cook);
         array.push(user);
-        setCookie("users", JSON.stringify(array));
+        setCookie("users", JSON.stringify(array), 5);
     } else {
         var cookieArray = [];
         cookieArray.push(user);
         var cookieArrayString = JSON.stringify(cookieArray);
-        setCookie("users", cookieArrayString);
+        setCookie("users", cookieArrayString, 5);
     }
     //fucking done
 }
 
+function deleteCookies(cname) { // ---- this function deletes cookies
+    console.log("this is the delete cookie function");
+    setCookie(cname, "", -1);
+}
 
 //var name = document.forms["myForm"]["name"].value; //
 //var email = document.forms["myForm"]["email"].value;
