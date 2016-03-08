@@ -194,6 +194,8 @@ function setCookie(cname, cvalue, days) { // ---- function that makes cookies
     console.log(document.cookie); // ---- will print the cookie object
 }
 
+
+
 function getCookie(cname) {
     if (cname) {
         var firstSplit = document.cookie.split(";");
