@@ -117,6 +117,14 @@ ul.vert-nav li a:hover{
     color: #2E5077;
     background-color: #C7C9C9 ;
 }
+
+/*----------------------CONTENT--------------------*/
+.content{
+    float:right;
+    position: relative;
+    bottom: 350px;
+    right:200px;
+}
 /*----------------- FOOTER ------------------------*/
 .footer{
     background-color: #113C44;

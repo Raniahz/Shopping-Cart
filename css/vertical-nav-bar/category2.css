@@ -39,6 +39,14 @@ ul.navbar li a {
 li.dropdown{
     list-style-type: none
 }
+#welcome{
+    font-weight: 900;
+    color: #113C44;
+    display: inline;
+    float: right;
+    padding-top: 10px;
+    font-size: 20px;
+}
 /* -------- NAV BAR HOVER ------------*/
 ul.navbar li a:hover{
     color: gray;
@@ -78,7 +86,7 @@ ul.navbar li a:hover{
     float:right;
     width: 4.5%;
     height: 4.5%;
-    margin-right: -40px;
+    margin-right: -146px;
 }
 /*---------KEY FRAMES FOR NAV BAR ---------------*/
 @keyframes bounce {

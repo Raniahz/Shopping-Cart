@@ -14,8 +14,8 @@
     <div class="nav-container">
         <ul class="navbar">
             <li><a href="index.html">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="horizontal-nav-bar/about.html">About</a></li>
+            <li><a href="horizontal-nav-bar/contact.html">Contact</a></li>
             <ul class="nav-right">
                 <li class="dropdown"><span>Account </span>
                     <div class="drop-content">
@@ -29,7 +29,7 @@
 
     <div class="content">
         <div class="signup-content">
-            <form name="myForm" action="" onsubmit="return validateSignUpForm(this);" method="post">
+            <form name="myForm" action="" onsubmit="return signUpController(this);" method="post">
                 <p>Name:<br><input type="text" id="name" name="name"/></p>
                 <div id="nameErr"></div>
                 <p>Email:<br><input type="text" id="email" name="email"/></p>
