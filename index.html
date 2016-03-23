@@ -20,7 +20,7 @@
                     <div class="drop-content">
                         <a href="login.html">Log In</a>
                         <a href="signup.html">Sign Up</a>
-                        <a href="index.html" onclick="deleteCookies('loggedIn')" >Log Out </a>
+                        <a href="index.html" onclick=" return instance.deleteValue('loggedIn')" >Log Out </a>
                     </div>
                 </li>
             </ul>
@@ -45,6 +45,7 @@
     <!------------- FOOTER ----------------->
     <div class="footer"></div>
     <script src="script.js"></script>
+    <script src="storage.js"></script>
 </div>
 </body>
 </html>

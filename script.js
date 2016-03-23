@@ -2,6 +2,9 @@
  * Created by lamppostgroup on 2/15/16.
  */
 
+//var DB = 'ls';
+//var DB = 'cookie';
+
 
 function validateName() { // ----validate name function
     console.log("name validation:");
@@ -171,50 +174,53 @@ function validateRepassword() { // ----validation re-password function
 }
 
 
-function welcome() {
-    var cookieString = getCookie("loggedIn");
-    var obj = JSON.parse(cookieString);
-    var welcome = document.getElementById('welcome');
-    console.log(welcome);
-    if (welcome) {
-        welcome.innerHTML = "Hello," + obj.name;
-    }
-}
+// ---- COOKIE & LOCAL STORAGE FUNCTIONS
 
+//function setLS(cname, cvalue) { // ------- SET LOCAL STORAGE
+//    localStorage.setItem(cname, cvalue);
+//}
+//
+//function setCookie(cname, cvalue, days) { // ------- SET COOKIE
+//    var now = new Date(); // ---- time expiration for cookie
+//    now.setTime(now.getTime() + (days * 24 * 60 * 60 * 1000));
+//    var expires = '';
+//    if (days) {
+//        expires = "expires=" + now.toUTCString();
+//    }
+//    document.cookie = cname + "=" + cvalue + ";" + expires;
+//    console.log("this is the cookie:");
+//    console.log(document.cookie); // ---- will print the cookie object
+//}
+//
+//function getLS(cname) { // ------- GET LOCAL STORAGE
+//    if (cname) {
+//        return localStorage.getItem(cname);
+//    }
+//    return null;
+//}
+//
+//function getCookie(cname) { // ---------GET COOKIE
+//    if (cname) {
+//        var firstSplit = document.cookie.split(";");
+//        console.log(firstSplit);
+//        // console.log(firstSplit);
+//        for (var i = 0; i < firstSplit.length; i++) {
+//            firstSplit[i] = firstSplit[i].trim();
+//            if (firstSplit[i].indexOf(cname) != -1) {
+//                var secondSplit = firstSplit[i].split("=");
+//                //   console.log(secondSplit[i + 1]);
+//                return secondSplit[1];
+//            }
+//        }
+//    }
+//    return null
+//}
+//function deleteCookies(cname) { // ---- deletes cookies
+//    console.log("this is the delete cookie function");
+//    setCookie(cname, "", -1);
+//}
 
-function setCookie(cname, cvalue, days) { // ---- function that makes cookies
-    var now = new Date(); // ---- time expiration for cookie
-    now.setTime(now.getTime() + (days * 24 * 60 * 60 * 1000));
-    var expires = '';
-    if (days) {
-        expires = "expires=" + now.toUTCString();
-    }
-    document.cookie = cname + "=" + cvalue + ";" + expires;
-    console.log("this is the cookie:");
-    console.log(document.cookie); // ---- will print the cookie object
-}
-
-
-
-function getCookie(cname) {
-    if (cname) {
-        var firstSplit = document.cookie.split(";");
-        console.log(firstSplit);
-        // console.log(firstSplit);
-        for (var i = 0; i < firstSplit.length; i++) {
-            firstSplit[i] = firstSplit[i].trim();
-            if (firstSplit[i].indexOf(cname) != -1) {
-                var secondSplit = firstSplit[i].split("=");
-                //   console.log(secondSplit);
-                //   console.log(secondSplit[i + 1]);
-                return secondSplit[1];
-            }
-        }
-    }
-    return null
-}
-
-function storeValues() {
+function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
     console.log("the store value function is being called");
     var name = document.forms["myForm"]["name"].value; // ----setting variable values for form fields
     var email = document.forms["myForm"]["email"].value;
@@ -224,13 +230,14 @@ function storeValues() {
     var male = document.getElementById("male");
     var password = document.forms["myForm"]["password"].value;
     var repassword = document.forms["myForm"]["repassword"].value;
+
     if (female.checked) { // ----- if statement for the gender radio buttons cookie
         var gender = "female";
     }
     else if (male.checked) {
         gender = "male";
     }
-    var user = {
+    var user = { // --- sets the object user that will be cookie/ls
         "name": name,
         "email": email,
         "mobile": mobile,
@@ -239,37 +246,111 @@ function storeValues() {
         "password": password,
         "reppasword": repassword
     };
-    console.log("the get cookie function is called now");
-    var cook = getCookie("users");
 
-    if (cook) {
-        var array = JSON.parse(cook);
-        array.push(user);
-        setCookie("users", JSON.stringify(array), 5);
-    } else {
-        var cookieArray = [];
-        cookieArray.push(user);
-        var cookieArrayString = JSON.stringify(cookieArray);
-        setCookie("users", cookieArrayString, 5);
+
+    instance.getValue('user', function (value) {
+    console.log('hhhhhh',value);
+        try {
+            value = JSON.parse(value);
+            console.log(value);
+            if (!value || !Array.isArray(value)) {
+
+                throw new Error('cannot parse it')
+            }
+        } catch (e) {
+            value = null;
+        }
+
+        if (value) {
+            value.push(user);
+            instance.setValue('user', JSON.stringify(value), function () {
+                console.log("this should direct you to new page");
+                window.location.href = "/Cart/login.html";
+            });
+        } else {
+            console.log('no previous cookie');
+            console.log(user);
+            var storageArray = [];
+            storageArray.push(user);
+            console.log(storageArray);
+            instance.setValue('user', JSON.stringify(storageArray), function () {
+                console.log("this should direct you to new page");
+                window.location.href = "/Cart/login.html";
+            });
+        }
+
+
+    });
+
+    //instance.getValue('users', function (cvalue) {
+    //       var handler = function (result) {
+    //        console.log(result);
+    //    };
+    //        cvalue = JSON.parse(cvalue);
+    //        console.log(cvalue);
+    //        if (Array.isArray(cvalue)) {
+    //            cvalue.push(user);
+    //            instance.setValue('users', JSON.stringify(cvalue), handler);
+    //        }
+    //        else {
+    //            instance.setValue('users', JSON.stringify([user]), handler)
+    //        }
+    //
+    //    }
+    //);
+
+// --- COOKIE & LOCAL STORAGE FUNCTIONS
+    //if (DB == 'cookie') {
+    //    console.log("DB is cookie");
+    //    var cookieArray = [];
+    //    cookieArray.push(user);
+    //    var cookieArrayString = JSON.stringify(cookieArray);
+    //    console.log(cookieArray, "2");
+    //    setCookie('users', cookieArrayString);
+    //}
+    //else {
+    //    console.log("DB is local storage");
+    //    var lsArray = [];
+    //    lsArray.push(user);
+    //    var lsArrayString = JSON.stringify(lsArray);
+    //    console.log(lsArray, "2");
+    //    setLS('users', lsArrayString);
+    //}
+
+}
+
+function welcome() {
+    //if (DB = 'cookie') {
+    //    var cookieString = getCookie("loggedIn");
+    //    var obj = JSON.parse(cookieString);
+    //}
+    //else {
+    //    var lsString = getLS("loggedIn");
+    //    obj = JSON.parse(lsString);
+    //}
+
+    var welcomeString = instance.getValue('loggedIn');
+    console.log(welcomeString);
+    var obj = JSON.parse(welcomeString);
+    console.log(obj);
+    var welcome = document.getElementById('welcome');
+    console.log(welcome);
+    console.log(obj.name);
+    if (welcome) {
+        welcome.innerHTML = "hello," + "" + obj.name;
     }
-    //fucking done
 }
 
-function deleteCookies(cname) { // ---- this function deletes cookies
-    console.log("this is the delete cookie function");
-    setCookie(cname, "", -1);
-}
-
-function signUpController() { // -----main validation function FOR SIGN UP PAGE!!!!!!
+function signUpController() { // ----- validation FOR SIGN-UP PAGE
     var errors = [];
     console.log("main validation function:");
-    var nameRes = validateName(); // ----setting variable for name function
-    var emailRes = validateEmail(); // -----setting variable for email function
-    var mobileRes = validateMobile(); // ----setting variable for mobile function
-    var ageRes = validateAge(); // ----setting variable for age function
+    var nameRes = validateName(); // ---- variable for name function
+    var emailRes = validateEmail(); // ----- variable for email function
+    var mobileRes = validateMobile(); // ---- variable for mobile function
+    var ageRes = validateAge(); // ---- variable for age function
     var genderRes = validateGender();
-    var passRes = validatePassword(); // -----setting variable for password function
-    var rePassRes = validateRepassword(); // -----setting variable for RE-password function
+    var passRes = validatePassword(); // ----- variable for password function
+    var rePassRes = validateRepassword(); // ----- variable for RE-password function
 
     if (nameRes) {
         errors.push(nameRes);
@@ -300,25 +381,23 @@ function signUpController() { // -----main validation function FOR SIGN UP PAGE!
         console.log("error is found")
     }
 
-    if (errors.length == 0) {
+    if (errors.length == 0) { // ---- if no errors, sign up and make cookie/ls
         storeValues();
-        console.log("this should direct you to new page");
-        window.location.href = "/Cart/login.html";
         return false
     }
     console.log(JSON.stringify(errors));
 
-    for (var i = 0; i < errors.length; i++) {
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
         errors[i].field.innerHTML = errors[i].message;
     }
     return false
 }
 
-function logInController() { // ----main validation function FOR LOG IN PAGE !!!!!
+function logInController() { // ----validation FOR LOGIN
     var errors = [];
     console.log("main validation function:");
-    var emailRes = validateEmail(); // -----setting variable for email function
-    var passRes = validatePassword(); // ----setting variable for password function
+    var emailRes = validateEmail(); // -----setting variable for email
+    var passRes = validatePassword(); // ----setting variable for password
     var email = document.forms["myForm"]["email"].value;
     var password = document.forms["myForm"]["password"].value;
 
@@ -330,40 +409,61 @@ function logInController() { // ----main validation function FOR LOG IN PAGE !!!
         errors.push(passRes);
         console.log("error is found")
     }
-    if (errors.length == 0) {
+    if (errors.length == 0) { // ---- if no errors in array
         console.log("if no errors in error array");
-        var userString = getCookie("users");
+
+        var userString = instance.getValue('user');
         var userObj = JSON.parse(userString);
-        for (i = 0; i < userObj.length; i++) {
-            console.log(userString);
-            console.log(userObj);
-            // console.log(userObj[i].email);
+        console.log(userObj);
+
+        //if (DB == 'cookie') {
+        //    var userString = getCookie("users"); // --- gets cookie and returns the value(string)
+        //    var userObj = JSON.parse(userString); // ---- turns string into array of object
+        //}
+        //else {
+        //    userString = getLS("users"); // --- gets LS and returns the value(string)
+        //    userObj = JSON.parse(userString); // ---- turns string into array of object
+        //}
+        console.log("for loop");
+
+        for (i = 0; i < userObj.length; i++) { //---- loops through array of object to see if user matches
+            console.log('var def');
             var userEmail = userObj[i].email;
             var userPassword = userObj[i].password;
-            if (userEmail == email && userPassword == password) {
-                console.log('DID THIS EVEN HAPPEN IT MUST HAVE');
-                var logInCookieObj = JSON.stringify(userObj[i]);
-                setCookie("loggedIn", logInCookieObj, 5);
+            console.log("if email and password match");
+
+            if (userEmail == email && userPassword == password) { //--- if log in info matches info in storage
+                console.log("new ob");
+                var logInCookieObj = JSON.stringify(userObj[i]); //---- turns object back into string
+                console.log(logInCookieObj);
+                instance.setValue('loggedIn', logInCookieObj);
+
+                //if (DB = 'cookie') {
+                //    setCookie("loggedIn", logInCookieObj, 5); // ---- makes a new cookie out of string
+                //} else {
+                //    setLS("loggedIn", logInCookieObj);
+                //}
+
             }
-            else {
+            else { // ---- if no matching cookie returns error message
                 document.getElementById('messageArea').innerHTML = "make sure email/password are correct";
                 return false;
             }
         }
-        console.log("this should take you back home");
-        window.location.href = "/Cart/index.html";
-        return false; // --- needs to be true to submit
+        console.log("page redirection");
+        window.location.href = "/Cart/index.html"; //----- redirects page to home
+        console.log("after redirection");
+        return false;
     }
-    //console.log(JSON.stringify(errors));
-    for (var i = 0; i < errors.length; i++) {
+    for (var i = 0; i < errors.length; i++) { // --- if any errors in form show message
         errors[i].field.innerHTML = errors[i].message;
     }
-    return false;
+    return false; // --- needs to be true to submit
 }
 
-function homeController() {
+function homeController() { //---- controller for the home page
     welcome();
-    deleteCookies();
+    // deleteCookies();
 }
 function aboutController() {
 
