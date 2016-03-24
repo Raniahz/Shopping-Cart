@@ -44,7 +44,8 @@ li.dropdown {
     font-weight: 900;
     color: #113C44;
     display: inline;
-    float: right;
+    /*float: right;*/
+    margin-left: 200px;
     padding-top: 10px;
     font-size: 20px;
 }
@@ -88,7 +89,7 @@ ul.navbar li a:hover {
     float:right;
     width: 4.5%;
     height: 4.5%;
-    margin-right: -146px;
+    margin-right: -50px;
 }
 
 /*---------KEY FRAMES FOR NAV BAR ---------------*/

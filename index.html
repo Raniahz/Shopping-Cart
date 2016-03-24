@@ -5,7 +5,8 @@
     <title>Cart</title>
     <link href='https://fonts.googleapis.com/css?family=Raleway|Roboto+Slab' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/mainstyles.css">
-<body onload="homeController()">
+    <body onload="homeController()">
+<!--<body>-->
 <!-- Wrapper around all of elements -------->
 <div class="wrapper">
 
@@ -18,14 +19,15 @@
             <ul class="nav-right">
                 <li class="dropdown"><span>Account </span>
                     <div class="drop-content">
-                        <a href="login.html">Log In</a>
                         <a href="signup.html">Sign Up</a>
-                        <a href="index.html" onclick=" return instance.deleteValue('loggedIn')" >Log Out </a>
+                        <a href="login.html">Log In</a>
+                        <a href="index.html" onclick=" return logOut()">Log Out </a>
                     </div>
                 </li>
             </ul>
 
-            <div id="welcome"></div>
+            <div id='welcome'></div>
+            <a href="#"><img class="cart-icon" src="images/cart.png"></a>
         </ul>
     </div>
 

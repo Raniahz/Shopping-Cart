@@ -43,7 +43,8 @@ li.dropdown{
     font-weight: 900;
     color: #113C44;
     display: inline;
-    float: right;
+    /*float: right;*/
+    margin-left: 200px;
     padding-top: 10px;
     font-size: 20px;
 }
@@ -80,6 +81,12 @@ ul.navbar li a:hover{
 .drop-content a:hover{
     animation: bounce .75s ease-out;
     color:#2E5077;
+}
+.cart-icon{
+    float:right;
+    width: 4.5%;
+    height: 4.5%;
+    margin-right: -50px;
 }
 /*---------KEY FRAMES FOR NAV BAR ---------------*/
 @keyframes bounce {

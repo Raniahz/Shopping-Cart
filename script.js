@@ -247,9 +247,8 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
         "reppasword": repassword
     };
 
-
     instance.getValue('user', function (value) {
-    console.log('hhhhhh',value);
+        console.log('hhhhhh', value);
         try {
             value = JSON.parse(value);
             console.log(value);
@@ -263,7 +262,7 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
 
         if (value) {
             value.push(user);
-            instance.setValue('user', JSON.stringify(value), function () {
+            instance.setValue('user', JSON.stringify(value), null, function () {
                 console.log("this should direct you to new page");
                 window.location.href = "/Cart/login.html";
             });
@@ -273,9 +272,10 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
             var storageArray = [];
             storageArray.push(user);
             console.log(storageArray);
-            instance.setValue('user', JSON.stringify(storageArray), function () {
+            instance.setValue('user', JSON.stringify(storageArray), null, function () {
                 console.log("this should direct you to new page");
                 window.location.href = "/Cart/login.html";
+
             });
         }
 
@@ -320,26 +320,29 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
 }
 
 function welcome() {
-    //if (DB = 'cookie') {
-    //    var cookieString = getCookie("loggedIn");
-    //    var obj = JSON.parse(cookieString);
-    //}
-    //else {
-    //    var lsString = getLS("loggedIn");
-    //    obj = JSON.parse(lsString);
-    //}
+    instance.getValue('loggedIn', function (welcomeString) {
+        console.log(welcomeString);
+        var userObj = JSON.parse(welcomeString);
+        console.log(userObj);
+        var welcome = document.getElementById('welcome');
+        console.log(welcome);
+        console.log(userObj.name);
+        if (welcome) {
+            console.log('if welcome exists');
+            welcome.innerHTML = "hello," + "" + userObj.name;
+        }
+    });
 
-    var welcomeString = instance.getValue('loggedIn');
-    console.log(welcomeString);
-    var obj = JSON.parse(welcomeString);
-    console.log(obj);
-    var welcome = document.getElementById('welcome');
-    console.log(welcome);
-    console.log(obj.name);
-    if (welcome) {
-        welcome.innerHTML = "hello," + "" + obj.name;
-    }
 }
+function logOut() {
+    console.log("log out funct");
+    instance.deleteValue('loggedIn', function () {
+        console.log("this should direct you to new page");
+        //  window.location.href = "/Cart/login.html";
+
+    })
+}
+
 
 function signUpController() { // ----- validation FOR SIGN-UP PAGE
     var errors = [];
@@ -412,48 +415,43 @@ function logInController() { // ----validation FOR LOGIN
     if (errors.length == 0) { // ---- if no errors in array
         console.log("if no errors in error array");
 
-        var userString = instance.getValue('user');
-        var userObj = JSON.parse(userString);
-        console.log(userObj);
-
-        //if (DB == 'cookie') {
-        //    var userString = getCookie("users"); // --- gets cookie and returns the value(string)
-        //    var userObj = JSON.parse(userString); // ---- turns string into array of object
-        //}
-        //else {
-        //    userString = getLS("users"); // --- gets LS and returns the value(string)
-        //    userObj = JSON.parse(userString); // ---- turns string into array of object
-        //}
-        console.log("for loop");
-
-        for (i = 0; i < userObj.length; i++) { //---- loops through array of object to see if user matches
-            console.log('var def');
-            var userEmail = userObj[i].email;
-            var userPassword = userObj[i].password;
-            console.log("if email and password match");
-
-            if (userEmail == email && userPassword == password) { //--- if log in info matches info in storage
-                console.log("new ob");
-                var logInCookieObj = JSON.stringify(userObj[i]); //---- turns object back into string
-                console.log(logInCookieObj);
-                instance.setValue('loggedIn', logInCookieObj);
-
-                //if (DB = 'cookie') {
-                //    setCookie("loggedIn", logInCookieObj, 5); // ---- makes a new cookie out of string
-                //} else {
-                //    setLS("loggedIn", logInCookieObj);
-                //}
-
+        instance.getValue('user', function (userString) {
+            console.log(userString);
+            var userObj = JSON.parse(userString);
+            //console.log('__________________',userObj);
+            //console.log(userObj[0]);
+            //console.log(userObj[1]);
+            if (!userObj) {
+                // alert('you must first login');
+                return;
             }
-            else { // ---- if no matching cookie returns error message
-                document.getElementById('messageArea').innerHTML = "make sure email/password are correct";
-                return false;
+            for (var i = 0; i < userObj.length; i++) { //---- loops through array of object to see if user matches
+                console.log('var def');
+                var userEmail = userObj[i].email;
+                var userPassword = userObj[i].password;
+                //console.log('here: ',userObj[i].email);
+                console.log("if email and password match");
+
+                if (userEmail == email && userPassword == password) { //--- if log in info matches info in storage
+                    //console.log("new ob", userEmail);
+                    var logInCookieObj = JSON.stringify(userObj[i]); //---- turns object back into string
+                //    console.log(logInCookieObj);
+                    instance.setValue('loggedIn', logInCookieObj, null, function () {
+
+                        console.log("success________________");
+                        window.location.href = "/Cart/index.html"; //----- redirects page to home
+                    });
+                //    //   break;
+                }
+                else { // ---- if no matching cookie returns error message
+                    document.getElementById('messageArea').innerHTML = "make sure email/password are correct";
+                    //return false;
+                }
             }
-        }
-        console.log("page redirection");
-        window.location.href = "/Cart/index.html"; //----- redirects page to home
-        console.log("after redirection");
-        return false;
+
+        });
+
+
     }
     for (var i = 0; i < errors.length; i++) { // --- if any errors in form show message
         errors[i].field.innerHTML = errors[i].message;
