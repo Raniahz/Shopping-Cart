@@ -29,7 +29,7 @@
 
     <div class="content">
         <div class="signup-content">
-            <form name="myForm" action="" onsubmit="return pass.signUp(this);" method="post">
+            <form name="myForm" action="" onsubmit="return signUpController(this);" method="post">
                 <p>Name:<br><input type="text" id="name" name="name"/></p>
                 <div id="nameErr"></div>
                 <p>Email:<br><input type="text" id="email" name="email"/></p>
@@ -48,6 +48,7 @@
                 <div id="errRepassword"></div>
                 <input class=log-sub-button type="submit" value="submit" />
             </form>
+            <div id = "signErr" ></div>
         </div>
     </div>
 
