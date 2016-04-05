@@ -6,7 +6,13 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+var mongoose = require('mongoose');
+db = mongoose.connection;
+mongoose.connect('mongodb://localhost/test');
+
 var User = require('./user');
+var SessionUser = require('./session');
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(function (req, res, next) { // ----CORS to override
@@ -27,7 +33,6 @@ app.post('/singup', function (req, res) {
             });
             return;
         }
-
         console.log('not existing user');
         user = new User(req.body);
         user.save(function (err, user) { //this user.save method is making all
@@ -42,31 +47,37 @@ app.post('/singup', function (req, res) {
     });
 });
 
-//var user = new User(req.body);
-//user.save(function (err, user) { //this user.save method is making all
-//    if (err) {
-//        console.log(err);
-//        return res.send(err);
-//    }
-//    res.send(user);
-//});
-//  });
-//console.log(existUser);
-//if (existUser) {
-//    var errMsg = document.getElementById('signErr');
-//    errMsg.innerHTML = "User already has account"
-//}
-//else {
-// }
-
 app.post('/login', function (req, res) {
-    User.find(req.body, 'name', function (err, user) {
-        console.log(err, user);
+    var query = {
+        email: req.body.email,
+        password: req.body.password
+    };
+    User.find(query, function (err, user) {
         res.send(user);
+        console.log('user', user);
+
+        var sessUser = new SessionUser();
+        sessUser.user = user[0]._id;
+        sessUser.save(function (err, user) {
+            if (err) {
+                console.log(err);
+            }
+            console.log('new', user);
+        })
     })
 });
 
-//app.post('/');
+app.post('/logout', function (req, res) {
+    console.log(req.body);
+    SessionUser.remove({user: req.body._id}, function (err) {
+        if (err) {
+            return res.send(err);
+        }
+        console.log('response');
+        res.sendStatus(200);
+    })
+
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

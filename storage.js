@@ -4,14 +4,16 @@
 
 function Cookie() {
     this.setValue = function (cname, cvalue, days, callback) {
-        // if () {
+        //if (callback) {
+            console.log('yo');
         var now = new Date();
         now.setTime(now.getTime() + (days * 24 * 60 * 60 * 1000));
         if (days) {
             var expires = "expires=" + now.toUTCString();
         }
+        console.log('before cook');
         callback(document.cookie = cname + "=" + cvalue + ";" + expires);
-        //  }
+        // }
         // callback(null);
     };
     this.getValue = function (cname, callback) {
@@ -34,7 +36,10 @@ function Cookie() {
         callback(null);
     };
     this.deleteValue = function (cname, callback) {
-        callback(this.setValue(cname, "", -1));
+        console.log('delete func');
+        callback(this.setValue(cname, "", -1, function(){
+            window.location.href = "/Cart/login.html";
+        }));
     }
 }
 function LocalStore() {
@@ -103,9 +108,8 @@ function Passport() {
         http.onreadystatechange = function () {
             if (http.readyState == 4 && http.status == 200) {
                 console.log('ready');
-                callback(http.responseText);
+                callback(JSON.parse(http.responseText));
                 console.log('before redirection');
-             // window.location.href = "/Cart/login.html";
             }
         };
         var str = [];
@@ -123,7 +127,7 @@ function Passport() {
             console.log('after call');
             if (http.readyState == 4 && http.status == 200) {
                 callback(http.responseText);
-              window.location.href = "/Cart/index.html"
+                //window.location.href = "/Cart/index.html"
             }
         };
         var str = [];
@@ -132,17 +136,30 @@ function Passport() {
         }
         http.send(str.join('&'));
     };
-    this.logOut = function () {
-        console.log("log out funct");
-        //   instance.deleteValue('loggedIn', function () {
-        //   console.log("this should direct you to new page");
-        //   window.location.href = "/Cart/login.html";
-        //      })
-    }
+    this.logOut = function (params, callback) {
+        console.log('log out');
+        console.log(params);
+        var http = new XMLHttpRequest();
+        http.open("POST", 'http://localhost:3000/logout', true);
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.onreadystatechange = function () {
+            console.log('after call');
+            console.log(http.readyState);
+            console.log(http.status);
+            if (http.readyState == 4 && http.status == 200) {
+                console.log('before response text log out');
+                callback(http.responseText);
+            }
+        };
+        var str = [];
+        for (var i in params) {
+            str.push(i + '=' + params[i]);
+        }
+        http.send(str.join('&'));
+    };
 }
 
-
-//var instance = new Cookie();
+var storage = new Cookie();
 var passport = new Passport();
 
 

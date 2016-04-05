@@ -192,7 +192,7 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
     console.log('before passport');
     passport.signUp(user, function (res) {
         console.log(res);
-        var obj = JSON.parse(res);
+        var obj = res;
         console.log(obj);
 
         if (obj.error == true) {
@@ -202,7 +202,7 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
             return
         }
 
-         window.location.href = "/Cart/login.html";
+        window.location.href = "/Cart/login.html";
     });
 
     /*
@@ -239,32 +239,34 @@ function storeValues() { // ------  STORES VALUES FROM FORM TO STORE
      */
 
 }
-
 function welcome() {
-
-    instance.getValue('loggedIn', function (welcomeString) {
+    storage.getValue('user', function (welcomeString) {
         console.log(welcomeString);
         var userObj = JSON.parse(welcomeString);
-        console.log(userObj);
+        console.log(userObj[0]);
         var welcome = document.getElementById('welcome');
-        console.log(welcome);
-        console.log(userObj.name);
-        if (welcome) {
-            console.log('if welcome exists');
-            welcome.innerHTML = "hello," + "" + name;
-        }
+        console.log(userObj[0].name);
+        welcome.innerHTML = 'hello ' + userObj[0].name;
     });
-
 }
 
-//function logOut() {
-//    console.log("log out funct");
-//    instance.deleteValue('loggedIn', function () {
-//        console.log("this should direct you to new page");
-//        //  window.location.href = "/Cart/login.html";
-//
-//    })
-//}
+function logOut() {
+    console.log("log out funct");
+    storage.getValue('user', function (userString) {
+        console.log(userString);
+        var person = JSON.parse(userString);
+        console.log(person[0]);
+
+        passport.logOut(person[0], function (res) {
+            console.log('logout passport');
+            storage.deleteValue('user', function () {
+                console.log("this should direct you to new page");
+                window.location.href = "/Cart/login.html";
+
+            });
+        })
+    });
+}
 
 function signUpController() { // ----- validation FOR SIGN-UP PAGE
     var errors = [];
@@ -339,7 +341,10 @@ function logInController() { // ----validation FOR LOGIN
 
         passport.logIn({email: email, password: password}, function (res) {
             console.log(res);
-            console.log(res.name)
+            storage.setValue('user', res, 1, function () {
+
+                window.location.href = "/Cart/index.html"
+            });
         });
 
         //instance.getValue('user', function (userString) {
