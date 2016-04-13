@@ -1,0 +1,339 @@
+/*--------- MAIN STYLES -------------------*/
+html, body {
+    font-family: Raleway, sans-serif;
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.wrapper{
+    box-shadow: 0 5px 10px gray;
+    width:960px;
+    margin: 0 auto;
+}
+
+
+/*------ LOGIN.HTML --------------------------*/
+p{
+    font-size: 12px;
+}
+a.password p{
+    font-size: 8px;
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    color:#2E5077;
+    text-decoration: underline;
+}
+.login-content{
+    font-family: Roboto Slab, sans-serif;
+    text-transform: uppercase;
+    color: black;
+    margin: auto;
+    width: 30%;
+}
+#errEmail, #errPassword, #nameErr, #errMobile, #errRepassword, #errAge, #errGender{
+    font-size: 9px;
+    color: red;
+}
+#messageArea{
+    color:red;
+}
+#signErr {
+    font-size: 16px;
+    color: red;
+}
+/*---SUBMIT BUTTON -*/
+.log-sub-button{
+    font-family: Roboto Slab, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: black;
+    background-color: transparent;
+    border: .5px solid;
+}
+
+/*------ SIGNUP.HTML --------------------------*/
+.signup-content{
+    font-size: 12px;
+    width: 30%;
+    margin: auto;
+    font-family: Roboto Slab, sans-serif;
+    color: black;
+    text-transform: uppercase;
+    /*margin-left: 13px;*/
+    /*margin-top: -4px;*/
+}
+/*--SUBMIT BUTTON ------*/
+.sign-sub-button{
+    font-family: Roboto Slab, sans-serif;
+    color: black;
+    text-transform: uppercase;
+    background: transparent;
+    border: .5px solid black;
+    width: 100px;
+}
+
+/*----------------- CONTENT ----------------*/
+.box {
+    flex: 1 1 calc(100% - 200px);
+}
+.box:nth-child(odd) {
+    flex: 0 0 200px;
+}
+h1{
+    font-weight: 900;
+    display: inline-block;
+    color:#174E59;
+    margin: -5px 10px 30px 40px;
+}
+h3{
+    margin: 0;
+}
+p{
+    margin:0;
+    color: #174E59;
+}
+.description{
+    display: inline-block;
+    color: black;
+}
+.top-left{
+    margin-top: -22px;
+}
+.bottom-left{
+    margin-top: 22px;
+}
+.bottom-right {
+    margin-top: 22px;
+}
+.box p {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/*----RATINGS--------*/
+.rating {
+    padding-right: 112px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    color: #174E59;
+    content: "★";
+    position: absolute;
+}
+/*-----QUANTITY BUTTON--------*/
+.quantity-button{
+    border: 1px black solid;
+    border-radius: 5px;
+    background-color: #174E59;
+    color:white;
+}
+/*------------------- FOOD  ---------------------------*/
+.food-content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 350px;
+    margin:auto;
+}
+/*-----images---------*/
+.pizza {
+    width: 45%;
+    height: 45%;
+    transition: .5s;
+}
+.pizza:hover{
+    width: 70%;
+    height: 70%;
+}
+.sushi {
+    width: 45%;
+    height: 45%;
+    transition: .5s;
+}
+.sushi:hover{
+    width: 70%;
+    height: 670%;
+}
+.steak {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.steak:hover{
+    width: 75%;
+    height: 75%;
+}
+.icecream {
+    width: 30%;
+    height: 30%;
+    transition: .5s;
+}
+.icecream:hover{
+    width: 45%;
+    height: 45%;
+}
+/*------------------- MOVIES  ---------------------------*/
+.movies-content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 350px;
+    margin: auto;
+}
+/*---- IMAGES --------*/
+.snatch {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.snatch:hover {
+    width: 70%;
+    height: 70%;
+}
+.lebowski {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.lebowski:hover {
+    width: 70%;
+    height: 70%;
+}
+.pulp {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.pulp:hover {
+    width: 70%;
+    height: 70%;
+}
+.lionking {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.lionking:hover {
+    width: 70%;
+    height: 70%;
+}
+/*------------------- MUSIC  ---------------------------*/
+.music-content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 350px;
+    margin:auto;
+}
+/*-----images--------*/
+.rcp {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.rcp:hover{
+    width: 70%;
+    height: 70%;
+}
+.acid {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.acid:hover{
+    width: 70%;
+    height: 70%;
+}
+.umph {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.umph:hover {
+    width: 75%;
+    height: 75%;
+}
+.led {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.led:hover{
+    width: 70%;
+    height: 70%;
+}
+
+/*--------------- CARS -----------------------*/
+.cars-content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 350px;
+    margin:auto;
+}
+/*------images-------*/
+.audi {
+    width: 45%;
+    height: 45%;
+    transition: .5s;
+}
+.audi:hover{
+    width: 70%;
+    height: 70%;
+}
+.passat {
+    width: 45%;
+    height: 45%;
+    transition: .5s;
+}
+.passat:hover{
+    width: 70%;
+    height: 670%;
+}
+.subaru {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.subaru:hover{
+    width: 75%;
+    height: 75%;
+}
+.nissa {
+    width: 50%;
+    height: 50%;
+    transition: .5s;
+}
+.nissa:hover{
+    width: 45%;
+    height: 45%;
+}
+/*---------------- MEDIA QUERIES -------------------*/
+@media (max-width: 960px) {
+    .wrapper{
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 800px) {
+    .wrapper {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 725px) {
+    .wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}

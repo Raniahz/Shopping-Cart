@@ -1,0 +1,139 @@
+/*---------- NAV BAR ---------------------------*/
+li{
+    float: left;
+}
+ul{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+li a {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    /*width: 50%;*/
+    height: 100%;
+}
+.nav-container{
+    background-color: #eee;
+    height: 35px;
+    box-shadow: 0 8px 14px -10px rgba(0, 0, 0, .2);
+}
+.nav-right {
+    float: right;
+}
+ul.navbar li{
+    float: left;
+}
+ul.navbar{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+ul.navbar li a {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+li.dropdown{
+    list-style-type: none
+}
+#welcome{
+    font-weight: 900;
+    color: #113C44;
+    display: inline;
+    /*float: right;*/
+    margin-left: 200px;
+    padding-top: 10px;
+    font-size: 20px;
+}
+/* -------- NAV BAR HOVER ---------------*/
+ul.navbar li a:hover{
+    color: #2E5077;
+    animation: bounce .75s ease-out;
+    text-decoration: none;
+}
+/*-------DROP DOWN-CONTENT -------------*/
+.dropdown{
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: black;
+}
+.drop-content{
+    padding-left: 10px;
+    margin-left: -3.3em;
+    text-align: center;
+    display:none;
+    position: absolute;
+    min-width: 88px;
+    background-color: #eee;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.drop-content a{
+    display: block;
+    padding: 10px 16px;
+}
+.dropdown:hover .drop-content{
+    display: block;
+}
+.drop-content a:hover{
+    animation: bounce .75s ease-out;
+    color:#2E5077;
+}
+.cart-icon{
+    /*float:right;*/
+    width: 4.5%;
+    height: 4.5%;
+    margin-right: -50px;
+}
+.content{
+    padding-top: 3%;
+    height: 350px;
+    margin-top: -9px;
+}
+/*------BREAD CRUMBS IN NAV BAR---------------------*/
+.breadcrumb-container{
+    background-color: #C7C9C9;
+}
+ul.breadcrumb {
+    margin-top: 0;
+    list-style: none;
+}
+ul.breadcrumb li {
+    font-size: 10px;
+    display: inline;
+}
+ul.breadcrumb li + li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+ul.breadcrumb li a {
+    color: #174E59;
+}
+ul.breadcrumb li:first-child{
+    margin-left: 20px;
+}
+ul.breadcrumb li a:hover {
+    text-decoration: none;
+}
+
+/*---------KEY FRAMES FOR NAV BAR ---------------*/
+@keyframes bounce {
+    0%{
+        transform: translateY(0%);
+    }
+    50%{
+        transform: translateY(-2.5%)
+    }
+    100%{
+        transform: translateY(0%)
+    }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Raleway|Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/mainstyles.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/vertNavBar.css">
+    <link rel="stylesheet" href="../css/footer.css">
+</head>
+<body onload="welcome()">
+<title>{{ title }}</title>
+<!-- Wrapper around all of elements -------->
+<div class="wrapper">
+    <!---------- NAV BAR ------------------>
+    <div class="nav-container">
+        <ul class="navbar">
+            <li><a href="/index">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <ul class="nav-right">
+                <li class="dropdown"><span>Account </span>
+                    <div class="drop-content">
+                        <a href="/signup">Sign Up</a>
+                        <a href="/login">Log In</a>
+                        <a href="/index" onclick=" return logOut()">Log Out </a>
+                    </div>
+                </li>
+            </ul>
+            <div id='welcome'>Welcome {{user.name}}</div>
+            <a href="#"><img class="cart-icon" src="../images/cart.png"></a>
+        </ul>
+    </div>
+    <!------------ LEFT SIDE BAR  ----------->
+    {% block lsidebar %}
+    {% endblock %}
+    <!---------------- BREAD CRUMBS  --------->
+    {% block breadcrumbs %}
+    {% endblock %}
+    <!---------------- CONTENT  ------------->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!------------- FOOTER ----------------->
+    <div class="footer">
+        <div class="icons">
+            <a href="#"><img href="#" class="facebook" src="../images/facebook.png"></a>
+            <a href="#"><img class="instagram" src="../images/instagram.png"></a>
+            <a href="#"><img class="twitter" src="../images/twitter.png"></a>
+        </div>
+        <div class="footer-content">
+            <a href="#">Back to top</a>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/storage.js"></script>
+</div>
+</body>
+</html>
