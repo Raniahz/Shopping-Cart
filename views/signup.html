@@ -3,29 +3,54 @@
 
 
 <div class="signup-content">
-     <form name="myForm" action="/signup" onsubmit="" method="post">
+    <form name="myForm" action="/signup" onsubmit="" method="post">
 
         <p>Name:<br><input type="text" id="name" name="name" value="{{body.name}}"/></p>
         <div id="nameErr"></div>
+
         <p>Email:<br><input type="email" id="email" name="email" value="{{body.email}}"/></p>
-         {{emailErr}}
-        <div id="errEmail"></div>
+        <div id="emailErr">{{ emailErr }} </div>
+
         <p>Mobile<br> <input type="tel" name="mobile" value="{{body.mobile}}"/></p>
-        <div id="errMobile"></div>
+        <div id="mobileErr"></div>
+
         <p>Age:<br><input type="number" name="age" value="{{body.age}}"/></p>
-        <div id="errAge"></div>
+        <div id="ageErr"></div>
+
         <p>Gender:<br>
-            <input type="radio" name="gender" id="female" value="female"/>Female
+            <input type="radio" name="gender" id="female" value="female" checked = "checked"/>Female
             <input type="radio" name="gender" id="male" value="male"/>Male</p>
-        <div id="errGender"></div>
+        <div id="genderErr"></div>
+
         <p>Enter password:<br><input id="password" type="password" name="password" value="{{body.password}}"/></p>
-        <div id="errPassword"></div>
-        <p>Re-enter password:<br><input type="password" name="repassword" value="{{body.repassword}}"/></p>
-        <div id="errRepassword"></div>
-         <input class=sign-sub-button type="submit" value="submit"/>
+        <div id="passwordErr"></div>
+
+        <p> Re-enter password: <br> <input type="password" name="repassword" value="{{body.repassword}}"/> </p>
+        <div id="repasswordErr"></div>
+
+        <input class=sign-sub-button type="submit" value="submit"/>
         <!--<input class=sign-sub-button onclick="signUpController()" type="button" value="submit"/>-->
     </form>
     <div id="signErr"></div>
 </div>
+
+<script>
+    var errors = '{{ errors |json | safe }}';
+    console.log(JSON.parse(errors));
+    console.log(errors);
+    errors = JSON.parse(errors);
+   // console.log(errors[0]);
+   // var i = 0;
+   // errors[i].field = JSON.parse(errors[i].field);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if(!elem){
+            console.log('err');
+
+        }
+        elem.innerHTML = errors[i].message;
+    }
+</script>
 
 {% endblock %}

@@ -33,7 +33,7 @@ a:hover {
     margin: auto;
     width: 30%;
 }
-#errEmail, #errPassword, #nameErr, #errMobile, #errRepassword, #errAge, #errGender{
+#emailErr, #passwordErr, #nameErr, #mobileErr, #repasswordErr, #ageErr, #genderErr{
     font-size: 9px;
     color: red;
 }

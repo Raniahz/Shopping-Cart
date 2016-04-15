@@ -3,16 +3,33 @@
 {% block content %}
 
 <div class="login-content">
-    <form name="myForm" action="" onsubmit=" return logInController(this)" method="post">
+    <form name="myForm" action="/login" onsubmit="" method="post">
+
         <p>Email:<br><input id="email" type="text" name="email"/></p>
-        <div id="errEmail"></div>
+        <div id="emailErr"></div>
+
         <p>Password:<br><input id="password" type="password" name="password"/></p>
-        <div id="errPassword"></div>
+        <div id="passwordErr"></div>
+
         <input class="log-sub-button" type="submit" value="submit" name="button"/>
         <a id="forgot" class="password" href="#"><p>Forgot Password</p></a>
     </form>
     <div id="messageArea"></div>
 
 </div>
+<script>
+    var errors = '{{ errors |json | safe }}';
+    console.log(JSON.parse(errors));
+    console.log(errors);
+    errors = JSON.parse(errors);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if(!elem){
+            console.log('err');
+        }
+        elem.innerHTML = errors[i].message;
+    }
+</script>
 
 {% endblock %}
