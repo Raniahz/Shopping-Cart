@@ -102,18 +102,22 @@ exports.validateAge = function (age) { // -----validate age field
 
 exports.validateGender = function (gender) { // ----- validate gender field
     console.log(gender);
-    if(gender == 'female'){
+    //if(gender == 'female'){
+    //    return {gender: 'female'}
+    //}
+    //if(gender == 'male'){
+    //    return {gender: 'male'}
+    //}
+    //console.log("gender validation:");
 
-    }
-    console.log("gender validation:");
-    if(!gender){
-        return {
-            field: "genderErr",
-            message: "gender must be checked"
-        };
-    }
-    console.log("gender is right!");
-    return undefined;
+    //if(!gender){
+    //    return {
+    //        field: "genderErr",
+    //        message: "gender must be checked"
+    //    };
+    //}
+   // console.log("gender is right!");
+    //return undefined;
     // var female = document.getElementById("female");
     // var male = document.getElementById("male");
     // var genderErr = document.getElementById('errGender');
@@ -124,7 +128,6 @@ exports.validateGender = function (gender) { // ----- validate gender field
     //        message: "gender must be checked"
     //    };
     //}
-
 };
 
 exports.validatePassword = function (password) { // ----validate password function

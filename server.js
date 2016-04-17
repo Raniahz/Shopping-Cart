@@ -13,7 +13,7 @@ var cookieParser = require('cookie-parser');
 db = mongoose.connection;
 mongoose.connect('mongodb://localhost/test');
 
-var signup = require('./public/js/signupValidation.js');
+var signup = require('./public/js/formValidation.js');
 //console.log(signup.validatePassword('42374'));
 //setTimeout(function () {
 //    var http = require('http');
@@ -122,16 +122,16 @@ app.get('/music', function (req, res) {
 app.post('/signup', function (req, res) {
     console.log('req body', req.body);
     var userString = JSON.stringify(req.body);
-    // res.send(req.cookies.user);
+    console.log(req.body.gender);
     console.log('right before cookie is made');
     res.cookie('user', userString);
     console.log('cookies', req.cookies);
+
     var errors = [];
     var nameRes = signup.validateName(req.body.name);
     var emailRes = signup.validateEmail(req.body.email);
     var mobileRes = signup.validateMobile(req.body.mobile);
     var ageRes = signup.validateAge(req.body.age);
-    var genderRes = signup.validateGender(req.body.gender);
     var passRes = signup.validatePassword(req.body.password);
     var rePassRes = signup.validateRepassword(req.body.repassword, req.body.password);
     if (nameRes) {
@@ -148,10 +148,6 @@ app.post('/signup', function (req, res) {
     }
     if (ageRes) {
         errors.push(ageRes);
-        console.log("error is found")
-    }
-    if (genderRes) {
-        errors.push(genderRes);
         console.log("error is found")
     }
     if (passRes) {
@@ -208,7 +204,7 @@ app.post('/login', function (req, res) {
     if (errors != 0) {
         return res.render('./views/login', {
             errors: errors,
-            body: query
+            query: query
         });
     }
     User.find( query, function (err, user) {

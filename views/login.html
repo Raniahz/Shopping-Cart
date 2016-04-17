@@ -5,10 +5,10 @@
 <div class="login-content">
     <form name="myForm" action="/login" onsubmit="" method="post">
 
-        <p>Email:<br><input id="email" type="text" name="email"/></p>
+        <p>Email:<br><input id="email" type="text" name="email" value="{{query.email}}"/></p>
         <div id="emailErr"></div>
 
-        <p>Password:<br><input id="password" type="password" name="password"/></p>
+        <p>Password:<br><input id="password" type="password" name="password" value="{{query.password}}" /></p>
         <div id="passwordErr"></div>
 
         <input class="log-sub-button" type="submit" value="submit" name="button"/>
@@ -19,9 +19,11 @@
 </div>
 <script>
     var errors = '{{ errors |json | safe }}';
+    var query = '{{ query | json | safe }}';
     console.log(JSON.parse(errors));
     console.log(errors);
     errors = JSON.parse(errors);
+    console.log(query.email);
     for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
         console.log('looping through errors');
         var elem = document.getElementById(errors[i].field);

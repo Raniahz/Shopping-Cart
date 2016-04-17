@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
 <div class="signup-content">
     <form name="myForm" action="/signup" onsubmit="" method="post">
 
@@ -9,7 +8,7 @@
         <div id="nameErr"></div>
 
         <p>Email:<br><input type="email" id="email" name="email" value="{{body.email}}"/></p>
-        <div id="emailErr">{{ emailErr }} </div>
+        <div id="emailErr">{{ emailErr }}</div>
 
         <p>Mobile<br> <input type="tel" name="mobile" value="{{body.mobile}}"/></p>
         <div id="mobileErr"></div>
@@ -18,14 +17,17 @@
         <div id="ageErr"></div>
 
         <p>Gender:<br>
-            <input type="radio" name="gender" id="female" value="female" checked = "checked"/>Female
-            <input type="radio" name="gender" id="male" value="male"/>Male</p>
+
+            <input type="radio" name="gender" id="female" value="female" {% if body.gender== 'female' %} checked="checked" {% endif %} />Female
+
+            <input type="radio" name="gender" id="male" value="male" {% if body.gender== 'male' %} checked="checked" {% endif %} />Male</p>
+
         <div id="genderErr"></div>
 
         <p>Enter password:<br><input id="password" type="password" name="password" value="{{body.password}}"/></p>
         <div id="passwordErr"></div>
 
-        <p> Re-enter password: <br> <input type="password" name="repassword" value="{{body.repassword}}"/> </p>
+        <p> Re-enter password: <br> <input type="password" name="repassword" value="{{body.repassword}}"/></p>
         <div id="repasswordErr"></div>
 
         <input class=sign-sub-button type="submit" value="submit"/>
@@ -36,16 +38,18 @@
 
 <script>
     var errors = '{{ errors |json | safe }}';
+    var body = '{{ body |json | safe }}';
     console.log(JSON.parse(errors));
     console.log(errors);
+    console.log(body);
     errors = JSON.parse(errors);
-   // console.log(errors[0]);
-   // var i = 0;
-   // errors[i].field = JSON.parse(errors[i].field);
+    // console.log(errors[0]);
+    // var i = 0;
+    // errors[i].field = JSON.parse(errors[i].field);
     for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
         console.log('looping through errors');
         var elem = document.getElementById(errors[i].field);
-        if(!elem){
+        if (!elem) {
             console.log('err');
 
         }
