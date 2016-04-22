@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
-
-var formSchema = new mongoose.Schema({ //schema
+var userSchema = new mongoose.Schema({ //schema
     name: String,
     email: String,
     mobile: Number,
@@ -10,7 +9,6 @@ var formSchema = new mongoose.Schema({ //schema
     password: String,
     rePassword: String
 });
-var User = mongoose.model('User', formSchema); // model
-module.exports = User; // make available to app
+mongoose.model('User', userSchema); // model
 
 
