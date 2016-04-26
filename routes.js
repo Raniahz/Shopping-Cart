@@ -1,87 +1,57 @@
 var userCtrl = require('./controllers/user');
-var indexCtrl = require('./controllers/index');
+var welcomeCtrl = require('./controllers/welcome');
+var dashUser = require('./controllers/dashUsers');
 
 module.exports = function (app) {
-// user -----------------------------
+
+//-------- LOGIN /SIGNUP/ LOGOUT ---------------------
     app.post('/signup', userCtrl.signupUser);
-
     app.post('/login', userCtrl.loginUser);
-
-    app.get('/logout',userCtrl.logOutUser);
-
+    app.get('/logout', userCtrl.logOutUser);
     app.get('/signup', function (req, res) {
         res.render('./views/signup', {})
     });
-
-    app.get('/index', indexCtrl.userWelcome);
-
-    //app.get('/', function (req, res) {
-    //    res.render('./views/index', {})
-    //});
-
     app.get('/login', function (req, res) {
         res.render('./views/login', {})
     });
 
+//----------- HOME -----------------------------
+    app.get('/', welcomeCtrl.userWelcome);
 
-//app.get('/', function (req, res) {
-//
-//    SessionUser.findOne({}, function (err, sessionUser) {
-//            console.log('ses', sessionUser);
-//            if (err) {
-//                console.log(err);
-//            }
-//            if (sessionUser == null) {
-//                console.log('sessUser is null');
-//                res.render('./views/index', {});
-//                return
-//            }
-//            User.findOne({_id: sessionUser.user}, function (err, user) {
-//                if (err) {
-//                    console.log(err);
-//                }
-//                console.log(' look here ', user);
-//                res.render('./views/index', {user: user})
-//            })
-//        }
-//    )
-//});
-
+//-----------NAV-BAR-----------------------------
 // about-------------------------
-    app.get('/about', function (req, res) {
-        res.render('./views/about', {})
-    });
+    app.get('/about', welcomeCtrl.userWelcomeAbout);
 // contact-------------------------
-    app.get('/contact', function (req, res) {
-        res.render('./views/contact', {})
-    });
+    app.get('/contact', welcomeCtrl.userWelcomeContact);
+
+//-----------PRODUCTS-----------------------------
 // cars-------------------------
-    app.get('/cars', function (req, res) {
-        res.render('./views/cars', {})
-    });
+    app.get('/cars', welcomeCtrl.userWelcomeCars);
 //food-------------------------
-    app.get('/food', function (req, res) {
-        res.render('./views/food', {})
-    });
+    app.get('/food', welcomeCtrl.userWelcomeFood);
 // movies-------------------------
-    app.get('/movies', function (req, res) {
-        res.render('./views/movies', {})
-    });
+    app.get('/movies', welcomeCtrl.userWelcomeMovies);
 // music-------------------------
-    app.get('/music', function (req, res) {
-        res.render('./views/music', {})
+    app.get('/music', welcomeCtrl.userWelcomeMusic);
+
+//-----------DASHBOARD-----------------------------
+
+// users-------------------------
+
+    app.get('/dashboard', welcomeCtrl.userWelcomeDash);
+    app.get('/dashboard/users', dashUser.findUsers);
+
+    app.get('/dashboard/editUsers', function (req, res) {
+        res.render('./views/dashboard/editUsers', {})
     });
+    // ---- edit users--------------------
+    app.post('/dashboard/editUsers', dashUser.editUser);
+
+    // ---- delete users--------------------
+    //app.get('/dashboard/deleteUsers', function (req, res) {
+    //    res.render('./views/dashboard/deleteUsers', {})
+    //});
 
 
-//app.post('/logout', function (req, res) {
-//    console.log(req.body);
-//    SessionUser.remove({user: req.body._id}, function (err) {
-//        if (err) {
-//            return res.send(err);
-//        }
-//
-//    })
-//});
-
-
+   // app.get('/dashboard/editUsers', dashUser.deleteUser);
 };

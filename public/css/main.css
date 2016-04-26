@@ -10,6 +10,7 @@ html, body {
     box-shadow: 0 5px 10px gray;
     width:960px;
     margin: 0 auto;
+    height: 800px;
 }
 
 
@@ -46,12 +47,19 @@ a:hover {
 }
 /*---SUBMIT BUTTON -*/
 .log-sub-button{
-    font-family: Roboto Slab, sans-serif;
-    font-size: 10px;
-    text-transform: uppercase;
-    color: black;
-    background-color: transparent;
-    border: .5px solid;
+    /*font-family: Roboto Slab, sans-serif;*/
+    /*font-size: 10px;*/
+    /*text-transform: uppercase;*/
+    /*color: black;*/
+    /*background-color: transparent;*/
+    /*border: .5px solid;*/
+    margin-top:5px;
+    width: 100px;
+    /*border: 1px black solid;*/
+    border: none;
+    border-radius: 5px;
+    background-color: #174E59;
+    color:white;
 }
 
 /*------ SIGNUP.HTML --------------------------*/
@@ -62,17 +70,22 @@ a:hover {
     font-family: Roboto Slab, sans-serif;
     color: black;
     text-transform: uppercase;
-    /*margin-left: 13px;*/
-    /*margin-top: -4px;*/
+
 }
 /*--SUBMIT BUTTON ------*/
 .sign-sub-button{
-    font-family: Roboto Slab, sans-serif;
-    color: black;
-    text-transform: uppercase;
-    background: transparent;
-    border: .5px solid black;
+    /*font-family: Roboto Slab, sans-serif;*/
+    /*color: black;*/
+    /*text-transform: uppercase;*/
+    /*background: transparent;*/
+    /*border: .5px solid black;*/
+    margin-top:5px;
     width: 100px;
+    /*border: 1px black solid;*/
+    border: none;
+    border-radius: 5px;
+    background-color: #174E59;
+    color:white;
 }
 
 /*----------------- CONTENT ----------------*/
@@ -132,7 +145,8 @@ p{
 }
 /*-----QUANTITY BUTTON--------*/
 .quantity-button{
-    border: 1px black solid;
+   border: 1px black solid;
+
     border-radius: 5px;
     background-color: #174E59;
     color:white;
@@ -336,4 +350,16 @@ p{
         max-width: 600px;
         margin: 0 auto;
     }
+}
+
+/*-------------- EDIT USER DASHBOARD  ------------------*/
+
+.editUser-content{
+    font-size: 12px;
+    width: 30%;
+   /*margin: -750px auto 0 auto;*/
+    margin: auto;
+    font-family: Roboto Slab, sans-serif;
+    color: black;
+    text-transform: uppercase;
 }

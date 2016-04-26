@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var SessionUser = mongoose.model('SessionUser');
-
 var formValidate = require('../lib/formValidation.js');
 
 exports.signupUser = function (req, res) {
@@ -100,7 +99,7 @@ exports.loginUser = function (req, res) {
 
             res.cookie('sessionUser', user._id);
             console.log('before redirect');
-            return res.redirect('/index');
+            return res.redirect('/');
         })
     })
 };
@@ -113,7 +112,7 @@ exports.logOutUser = function (req, res) {
             return console.log(err);
         }
         res.clearCookie('sessionUser');
-        res.redirect('/index');
+        res.redirect('/');
 
     });
     //SessionUser.find({}, function (err, user) {

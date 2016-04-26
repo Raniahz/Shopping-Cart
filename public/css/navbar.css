@@ -1,13 +1,16 @@
 /*---------- NAV BAR ---------------------------*/
-li{
+li, #loggedInLink{
     float: left;
+}
+#loggedInLink{
+    margin-top: -11px;
 }
 ul{
     list-style-type: none;
     margin:0;
     padding:0;
 }
-li a {
+li a, #loggedInLink {
     padding: 11px 12px;
     text-align: center;
     font-size: 12px;
@@ -25,7 +28,7 @@ li a {
 .nav-right {
     float: right;
 }
-ul.navbar li{
+ul.navbar li, #loggedInLink{
     float: left;
 }
 ul.navbar{
@@ -33,7 +36,7 @@ ul.navbar{
     margin:0;
     padding:0;
 }
-ul.navbar li a {
+ul.navbar li a, #loggedInLink{
     padding: 11px 12px;
     text-align: center;
     font-size: 12px;
@@ -49,12 +52,12 @@ li.dropdown{
     color: #113C44;
     display: inline;
     /*float: right;*/
-    margin-left: 200px;
+    /*margin-left: -8px;*/
     padding-top: 10px;
-    font-size: 20px;
+    font-size: 23px;
 }
 /* -------- NAV BAR HOVER ---------------*/
-ul.navbar li a:hover{
+ul.navbar li a:hover, #loggedInLink{
     color: #2E5077;
     animation: bounce .75s ease-out;
     text-decoration: none;
@@ -88,9 +91,10 @@ ul.navbar li a:hover{
     color:#2E5077;
 }
 .cart-icon{
+    padding-top: 3px;
     /*float:right;*/
-    width: 4.5%;
-    height: 4.5%;
+    width: 3.5%;
+    height: 3.5%;
     margin-right: -50px;
 }
 .content{
@@ -135,5 +139,20 @@ ul.breadcrumb li a:hover {
     }
     100%{
         transform: translateY(0%)
+    }
+}
+
+/*---------------- MEDIA QUERIES -------------------*/
+
+@media (max-width: 800px) {
+    .breadcrumb-container {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 725px) {
+    .wrapper {
+        max-width: 600px;
+        margin: 0 auto;
     }
 }

@@ -6,31 +6,18 @@
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/vertNavBar.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/userTable.css">
 </head>
 <body>
 <!--<body onload="welcome()">-->
 <title>{{ title }}</title>
+
 <!-- Wrapper around all of elements -------->
 <div class="wrapper">
-    <!---------- NAV BAR ------------------>
-    <div class="nav-container">
-        <ul class="navbar">
-            <li><a href="/index">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <ul class="nav-right">
-                <li class="dropdown"><span>Account </span>
-                    <div class="drop-content">
-                        <a href="/signup">Sign Up</a>
-                        <a href="/login">Log In</a>
-                        <a href="/logout">Log Out </a>
-                    </div>
-                </li>
-            </ul>
-            <div id='welcome'>Welcome {{user.name}}</div>
-            <a href="#"><img class="cart-icon" src="../images/cart.png"></a>
-        </ul>
-    </div>
+
+    <!------------ NAV-BAR  ----------->
+    {% block navbar %}
+    {% endblock %}
     <!------------ LEFT SIDE BAR  ----------->
     {% block lsidebar %}
     {% endblock %}

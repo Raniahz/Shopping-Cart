@@ -1,0 +1,31 @@
+<!---------- NAV BAR ------------------>
+<div class="nav-container">
+    <ul class="navbar">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+
+        {% block loggedInLink %}
+        {% if user != null %}<li id="loggedInLink"><a href="/dashboard">Dashboard</a></li>{% endif %}
+        {% endblock %}
+
+        <ul class="nav-right">
+            <li class="dropdown"><span>Account </span>
+                <div class="drop-content">
+                    <a href="/signup">Sign Up</a>
+                    <a href="/login">Log In</a>
+
+                    {% block loggedInLink %}
+                        {% if user != null %} <a href="/logout">Log Out </a>{% endif %}
+                    {% endblock %}
+
+                </div>
+            </li>
+        </ul>
+        {% block loggedInLink %}
+        {% if user != null %}   <div id='welcome'>hello {{user.name}} !
+            <a href="#"><img class="cart-icon" src="../images/cart.png"></a>
+        </div>{% endif %}
+        {% endblock %}
+    </ul>
+</div>

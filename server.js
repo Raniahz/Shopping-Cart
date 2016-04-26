@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 require('./models/user');
 require('./models/session');
 var swig = require('swig');
-//require('./lib/task');
+//require('./controllers/dashUsers');
+
 
 //var template = swig.compileFile('./views/layout.html');
 var cookieParser = require('cookie-parser');

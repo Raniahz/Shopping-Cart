@@ -1,0 +1,30 @@
+{% extends "../layout.html" %}
+
+{% block navbar %}
+    {% include "../dashNavbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div id="table">
+<table >
+    <tr class="header">
+        <td >Names</td>
+        <td>Email</td>
+        <td>Date</td>
+        <td>Roles</td>
+        <td>Edit</td>
+    </tr>
+    <tr>
+      {% for user in users %}
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>bla</td>
+        <td>bla</td>
+        <td class="button"><input class="delete-button" type="submit" value="delete"/>
+            <a href="/dashboard/editUsers?_id={{user._id}}"> <input class="edit-button" type="submit" value="edit"/></a></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+{% endblock %}

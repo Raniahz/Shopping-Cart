@@ -7,7 +7,9 @@ var userSchema = new mongoose.Schema({ //schema
     age: Number,
     gender: String,
     password: String,
-    rePassword: String
+    rePassword: String,
+    date: Number,
+    roles: String
 });
 mongoose.model('User', userSchema); // model
 
