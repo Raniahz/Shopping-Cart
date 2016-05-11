@@ -1,0 +1,37 @@
+{% extends "../dashboardLayout.html" %}
+
+{% block content %}
+
+<div class="editUser-content">
+    <form name="form" action="/dashboard/editCategory" method="post">
+
+        <input type="hidden" name="id" value ="{{ categories.id }}" >
+        <p> category name:<br>
+            <input type="text" id="name" name="name" value="{{ category.name }}"/></p>
+        <div id="nameErr"> {{ nameErr }}</div>
+        <p>category slug:<br>
+            <input type="text" id="slug" name="slug" value="{{ category.slug }}"/></p>
+        <div id="slugErr">{{ slugErr }}</div>
+
+        <input class=sign-sub-button type="submit" value="submit">
+    </form>
+    <div id ="editMessage"> {{ editMessage }}</div>
+</div>
+
+<script>
+    var errors = '{{ errors |json | safe }}';
+    var body = '{{ body |json | safe }}';
+    console.log(JSON.parse(errors));
+    console.log(errors);
+    console.log(body);
+    errors = JSON.parse(errors);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if (!elem) {
+            console.log('err');
+        }
+        elem.innerHTML = errors[i].message;
+    }
+</script>
+{% endblock %}

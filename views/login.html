@@ -1,10 +1,4 @@
-{% extends "layout.html" %}
-
-
-{% block navbar %}
-{% include "navbar.html" %}
-{% endblock %}
-
+{% extends "mainLayout.html" %}
 {% block content %}
 
 <div class="login-content">
@@ -19,7 +13,7 @@
         <input class="log-sub-button" type="submit" value="submit"/>
         <a id="forgot" class="password" href="#"><p>Forgot Password</p></a>
     </form>
-    <div id="messageArea"></div>
+    <div id="messageArea">  {{ loginMsg }}</div>
 
 </div>
 <script>

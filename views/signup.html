@@ -1,12 +1,8 @@
-{% extends "layout.html" %}
-
-{% block navbar %}
-    {% include "navbar.html" %}
-{% endblock %}
+{% extends "mainLayout.html" %}
 
 {% block content %}
 <div class="signup-content">
-    <form name="myForm" action="/signup" onsubmit="" method="post">
+    <form name="myForm" action="/signup" method="post">
 
         <p>Name:<br><input type="text" id="name" name="name" value="{{body.name}}"/></p>
         <div id="nameErr"></div>
@@ -47,9 +43,6 @@
     console.log(errors);
     console.log(body);
     errors = JSON.parse(errors);
-    // console.log(errors[0]);
-    // var i = 0;
-    // errors[i].field = JSON.parse(errors[i].field);
     for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
         console.log('looping through errors');
         var elem = document.getElementById(errors[i].field);

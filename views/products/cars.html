@@ -1,0 +1,56 @@
+{% extends "../dashboardLayout.html" %}
+
+{% block content %}
+
+<!----------CONTENT----------------------------->
+<h1>Cars</h1>
+<p class="description">You probably can't afford it, but hey.</p>
+<!------ FOOD PICTURES---------------->
+<div class="cars-content-container">
+    <div class="top-right box">
+        <img class="audi" src="../images/audi.png">
+        <h3>Audi</h3>
+        <div class="rating">
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <p><strike>$12.99</strike> $7.99</p>
+        quantity:
+        <input type="number" name="quantity" min="1" max="5"> </br>
+        <input type="submit" value="buy it now" class="quantity-button">
+    </div>
+    <div class="top-left box">
+        <img class="passat" src="../images/passat.png">
+        <h3>Volkswagen</h3>
+        <div class="rating">
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <p><strike>$12.99</strike> $7.99</p>
+        quantity:
+        <input type="number" name="quantity" min="1" max="5"> </br>
+        <input type="submit" value="buy it now" class="quantity-button">
+    </div>
+    <div class="bottom-left box">
+        <img class="subaru" src="../images/subar.jpg">
+        <h3>Subaru</h3>
+        <div class="rating">
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <p><strike>$12.99</strike> $7.99</p>
+        quantity:
+        <input type="number" name="quantity" min="1" max="5"> </br>
+        <input type="submit" value="buy it now" class="quantity-button">
+    </div>
+    <div class="bottom-right box">
+        <img class="nissa" src="../images/nisaa.jpg">
+        <h3>Nissan</h3>
+        <div class="rating">
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <p><strike>$12.99</strike> $7.99</p>
+        quantity:
+        <input type="number" name="quantity" min="1" max="5"> </br>
+        <input type="submit" value="buy it now" class="quantity-button">
+    </div>
+</div>
+
+{% endblock %}

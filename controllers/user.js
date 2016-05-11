@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var SessionUser = mongoose.model('SessionUser');
-var formValidate = require('../lib/formValidation.js');
+var formValidate = require('../lib/signUpFormValidation.js');
 
 exports.signupUser = function (req, res) {
     console.log('req body', req.body);
@@ -51,6 +51,7 @@ exports.signupUser = function (req, res) {
             });
         }
         console.log('not existing user');
+
         user = new User(req.body);
         user.save(function (err, user) { //this user.save method is making all
             if (err) {
@@ -69,7 +70,7 @@ exports.loginUser = function (req, res) {
         password: req.body.password
     };
     console.log("main validation function:");
-    var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
+  //  var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
     var passRes = formValidate.validatePassword(req.body.password); // ----setting variable for password
     if (emailRes) {
         errors.push(emailRes);
@@ -86,19 +87,24 @@ exports.loginUser = function (req, res) {
         });
     }
     User.findOne(query, function (err, user) {
-        console.log('user', user);
+        if(err){
+            console.log(err);
+            return res.redirect('./views/login');
+        }
+        if(!user){
+            return res.render('./views/login', {loginMsg: 'sorry, no existing user'});
+        }
+     //   console.log('user', user);
         var sessUser = new SessionUser();
         sessUser.user = user._id;
-        // sessUser.name = user.name;
         sessUser.save(function (err, user) {
             if (err) {
                 return console.log(err);
             }
-            console.log('new sessionUser', user);
-            console.log('right before cookie is made');
-
+          //  console.log('new sessionUser', user);
+          //  console.log('right before cookie is made');
             res.cookie('sessionUser', user._id);
-            console.log('before redirect');
+           // console.log('before redirect');
             return res.redirect('/');
         })
     })

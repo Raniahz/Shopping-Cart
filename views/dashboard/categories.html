@@ -1,0 +1,36 @@
+{% extends "../dashboardLayout.html" %}
+
+{% import "pagination.html" as pagination %}
+
+{% block content %}
+<a class="button-link" href="/dashboard/editCategory">
+    <input class="createCategory-button" type="submit" value="create new category"/>
+</a>
+
+<div id="table">
+    <table>
+        <tr class="header">
+            <td>Category Names</td>
+            <td>Slug</td>
+            <td>Edit</td>
+        </tr>
+        <tr>
+            {% for categories in categories %}
+            <td>{{categories.name}}</td>
+            <td>{{categories.slug }}</td>
+
+            <td class="button"><a class="button-link" href="/dashboard/deleteCategory?_id={{categories._id | safe}}">
+                <input class="delete-button" type="submit" value="delete"/>
+            </a>
+                <a class="button-link" href="/dashboard/editCategory?_id={{categories._id | safe }}">
+                    <input class="edit-button" type="submit" value="edit"/>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{{ pagination.paginationLinks("/dashboard/categories", page, pages) }}
+
+{% endblock %}

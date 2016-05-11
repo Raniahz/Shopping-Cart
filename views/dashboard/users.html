@@ -1,30 +1,40 @@
-{% extends "../layout.html" %}
+{% extends "../dashboardLayout.html" %}
 
-{% block navbar %}
-    {% include "../dashNavbar.html" %}
-{% endblock %}
+{% import "pagination.html" as pagination %}
 
 {% block content %}
+<a class="button-link" href="/dashboard/editUsers">
+    <input class="createUser-button" type="submit" value="create new user"/>
+</a>
+
 <div id="table">
-<table >
-    <tr class="header">
-        <td >Names</td>
-        <td>Email</td>
-        <td>Date</td>
-        <td>Roles</td>
-        <td>Edit</td>
-    </tr>
-    <tr>
-      {% for user in users %}
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>bla</td>
-        <td>bla</td>
-        <td class="button"><input class="delete-button" type="submit" value="delete"/>
-            <a href="/dashboard/editUsers?_id={{user._id}}"> <input class="edit-button" type="submit" value="edit"/></a></td>
-    </tr>
-    {% endfor %}
-</table>
+    <table>
+        <tr class="header">
+            <td>Names</td>
+            <td>Email</td>
+            <td>Date Created</td>
+            <td>Roles</td>
+            <td>Edit</td>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date  | date('m/d/Y, h:ia') }}</td>
+            <td>{{ user.roles }}</td>
+            <td class="button"><a class="button-link" href="/dashboard/deleteUsers?_id={{user._id | safe}}">
+                <input class="delete-button" type="submit" value="delete"/>
+            </a>
+                <a class="button-link" href="/dashboard/editUsers?_id={{user._id | safe }}">
+                    <input class="edit-button" type="submit" value="edit"/>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
+
+{{ pagination.paginationLinks("/dashboard/users", page, pages) }}
+
 
 {% endblock %}
