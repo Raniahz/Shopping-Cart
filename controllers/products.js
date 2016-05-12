@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var config = require('../config');
 var fs = require('fs');
 var Product = mongoose.model('Product');
 var User = mongoose.model('User');
@@ -6,6 +7,10 @@ var SessionUser = mongoose.model('SessionUser');
 var getUser = require('../lib/getUser.js');
 var validation = require('../lib/productFormValidation.js');
 var productPoster = require('../lib/productPosters.js');
+//console.log(config);
+//console.log(config.root);
+var errPath = productPoster.makeProductDirectories();
+console.log('errPath', errPath);
 
 exports.productTable = function (req, res) { // need to change this to also send back stuff from db
     var id = req.cookies.sessionUser;
@@ -98,14 +103,14 @@ exports.editProductPOST = function (req, res) {
                 products: req.body
             })
         }
-        console.log('name---', req.body.attributesName);
-        console.log('value---', req.body.attributesValue);
+        //console.log('name---', req.body.attributesName);
+        //console.log('value---', req.body.attributesValue);
         var name = req.body.attributesName;
         var value = req.body.attributesValue;
         var attributes = [];
         if (name && value) {
-            console.log(typeof name);
-            console.log(typeof value);
+            // console.log(typeof name);
+            // console.log(typeof value);
             if (typeof name == 'string') {
                 name = [name];
             }
@@ -116,7 +121,7 @@ exports.editProductPOST = function (req, res) {
                 attributes.push({key: name[i], value: value[i]});
             }
         }
-        console.log('attributeObj', attributes);
+        // console.log('attributeObj', attributes);
         //Product.findOne(nameQuery).exec(function (err, product) {
         //    if (product) {
         //        console.log('existing name');
@@ -138,31 +143,41 @@ exports.editProductPOST = function (req, res) {
             product.discountPrice = req.body.discountPrice;
             product.attributes = attributes;
 
-            //console.log('files', req.file);
+            //console.log(config);
+            console.log('root', config.root);
+            console.log('req.file-----', req.file);
+            // console.log('fileName',fileName);
+
+            var root = config.root; // root path of this file
+            var productPath = config.productPath;
             var originalName = req.file.originalname.toLowerCase().split('.'); //this gets the "jpg"
-
             var oldPath = req.file.path; //the old path
-            var fileName = req.file.path.split('/'); //array with name of file
-            var directoryPath = 'Users/lamppostgroup/Desktop/Cart/public/posters/products'; //path of directory to check if exists
-            var newPath = '/' + directoryPath + fileName[1] + "." + originalName[1]; //the new path of file
+            var fileName = req.file.filename; //array with name of file
 
-            fs.stat(directoryPath, function (err, stats) {
-                if (!stats) {
-                    productPoster.makeDirectory(directoryPath);
-                    fs.rename(oldPath, newPath, function (err) {
-                        if (err) {
-                            console.log('rename err', err)
-                        }
-                    });
-                }
-                else {
-                    fs.rename(oldPath, newPath, function (err) {
-                        if (err) {
-                            console.log('other rename err', err)
-                        }
-                    });
-                }
-            });
+            fs.rename(oldPath, newPath, function (err) {
+                //            if (err) {
+                //                console.log('other rename err', err)
+                //            }
+                //        });
+
+
+            //fs.stat(directoryPath, function (err, stats) {
+            //    if (!stats) {
+            //        productPoster.makeDirectory(directoryPath);
+            //        fs.rename(oldPath, newPath, function (err) {
+            //            if (err) {
+            //                console.log('rename err', err)
+            //            }
+            //        });
+            //    }
+            //    else {
+            //        fs.rename(oldPath, newPath, function (err) {
+            //            if (err) {
+            //                console.log('other rename err', err)
+            //            }
+            //        });
+            //    }
+            //});
 
             product.save(function (err, product) {
                 if (err) {
