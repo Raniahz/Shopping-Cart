@@ -1,15 +1,21 @@
 /**
  * Created by lamppostgroup on 2/15/16.
  */
-
+var i = 0;
 attributeFunction = function () {
     console.log('button clicked');
     var divMain = document.getElementById('attributeDiv');
-    var div = document.createElement('DIV');
-    div.setAttribute('id', 'addedAttributes');
+    var span = document.createElement('SPAN');
+    function increment() {
+        i++;
+    }
 
     var inputValue = document.createElement('INPUT');
     var inputKey = document.createElement('INPUT');
+    var button = document.createElement('INPUT');
+    increment();
+    span.setAttribute('id', 'id' + i);
+
     inputKey.setAttribute('id', 'addedInput');
     inputKey.setAttribute('type', 'text');
     inputKey.setAttribute('name', 'attributesName');
@@ -20,18 +26,27 @@ attributeFunction = function () {
     inputValue.setAttribute('type', 'text');
     inputValue.setAttribute('placeholder', 'value');
 
-    div.appendChild(inputKey);
-    div.appendChild(inputValue);
-    divMain.appendChild(div);
+    button.setAttribute('type', 'button');
+    button.setAttribute('onclick', 'deleteAttribute(\"id' + i + '\")');
+    button.setAttribute('value', '-');
+    button.setAttribute('class', 'removeField');
+
+    span.appendChild(inputKey);
+    span.appendChild(inputValue);
+    span.appendChild(button);
+
+   divMain.appendChild(span);
 
     var signButton = document.getElementById('attributeErr');
     signButton.insertBefore(divMain, signButton.childNodes[0]);
-    //  signButton.insertBefore(div, signButton.childNodes[0]);
 
 };
-deleteAttribute = function () {
+deleteAttribute = function (id) {
     console.log('delete shit button');
-    var child = document.getElementById('addedAttributes');
-    child.parentNode.removeChild(child);
-
+    console.log(id);
+    var child = document.getElementById(id);
+    if(child){
+        child.remove();
+    }
 };
+

@@ -70,16 +70,16 @@ exports.userWelcomeMovies = function (req, res) {
         res.render('views/products/movies', {breadcrumbs: breadcrumbs,user: user})
     });
 };
-exports.userWelcomeMusic = function (req, res) {
-    var id = req.cookies.sessionUser;
-    var breadcrumbs = [{name: 'Products', link: '/'}, {name: 'Music', link: 'null'}];
-    getUser.findByUserId( id, function (err, user) {
-        if(err){
-            console.log(err);
-        }
-        res.render('views/products/music', {breadcrumbs: breadcrumbs, user: user})
-    });
-};
+//exports.userWelcomeMusic = function (req, res) {
+//    var id = req.cookies.sessionUser;
+//    var breadcrumbs = [{name: 'Products', link: '/'}, {name: 'Music', link: 'null'}];
+//    getUser.findByUserId( id, function (err, user) {
+//        if(err){
+//            console.log(err);
+//        }
+//        res.render('views/products/music', {breadcrumbs: breadcrumbs, user: user})
+//    });
+//};
 exports.userWelcomeCars = function (req, res) {
     var id = req.cookies.sessionUser;
     var breadcrumbs = [{name: 'Products', link: '/'}, {name: 'Cars', link:'null'}];

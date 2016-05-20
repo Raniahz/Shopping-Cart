@@ -2,13 +2,16 @@ var mongoose = require('mongoose');
 
 var productSchema = new mongoose.Schema({ //schema
     name: String,
-    category: {type: String, ref: 'Product'},
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
     slug: String,
-    image: String,
+    imageUrl: String,
+    imagePath: String,
     description: String,
+    rating: Number,
     quantity: Number,
     price: Number,
-    discountPrince: Number,
+    date: {type: Date, default: Date.now},
+    discountPrice: Number,
     attributes: Array
 });
 

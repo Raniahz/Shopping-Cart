@@ -1,2 +1,10 @@
-
 {% extends "mainLayout.html" %}
+{% import "productLayout.html" as productLayout %}
+
+{% block content %}
+
+{{ productLayout.productLayout("","","pizza", products, "") }}
+
+{% endblock %}
+
+

@@ -11,7 +11,7 @@ html, body {
     box-shadow: 0 5px 10px gray;
     width: 960px;
     margin: 0 auto;
-    height: 800px;
+    /*height: 800px;*/
 }
 
 /*------ LOGIN.HTML --------------------------*/
@@ -38,7 +38,7 @@ a:hover {
     width: 30%;
 }
 
-#emailErr, #passwordErr, #nameErr, #mobileErr, #repasswordErr, #ageErr, #genderErr, #slugErr {
+#emailErr, #passwordErr, #nameErr, #mobileErr, #repasswordErr, #ageErr, #genderErr, #categoryErr, #slugErr, #imageErr, #quantityErr, #priceErr, #deleteErr {
     font-size: 9px;
     color: red;
 }
@@ -126,7 +126,7 @@ p {
 }
 
 .top-left {
-    margin-top: -22px;
+    /*//margin-top: -22px;*/
 }
 
 .bottom-left {
@@ -171,7 +171,7 @@ p {
 }
 
 /*------------------- FOOD  ---------------------------*/
-.food-content-container {
+.content-container {
     display: flex;
     flex-wrap: wrap;
     width: 400px;
@@ -225,13 +225,6 @@ p {
 }
 
 /*------------------- MOVIES  ---------------------------*/
-.movies-content-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
-    height: 350px;
-    margin: auto;
-}
 
 /*---- IMAGES --------*/
 .snatch {
@@ -279,13 +272,6 @@ p {
 }
 
 /*------------------- MUSIC  ---------------------------*/
-.music-content-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
-    height: 350px;
-    margin: auto;
-}
 
 /*-----images--------*/
 .rcp {
@@ -333,13 +319,6 @@ p {
 }
 
 /*--------------- CARS -----------------------*/
-.cars-content-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
-    height: 350px;
-    margin: auto;
-}
 
 /*------images-------*/
 .audi {
@@ -450,5 +429,12 @@ p {
 /*}*/
 
 #addedInput{
+
+}
+/*-------------- EDIT PRODUCT form ------------------*/
+input.removeField{
+    float: right;
+    margin-top: -17px;
+    margin-right:30px;
 
 }

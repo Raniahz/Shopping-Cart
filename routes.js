@@ -3,14 +3,18 @@ var welcomeCtrl = require('./controllers/welcome');
 var dashboardUsers = require('./controllers/dashUsers');
 var categoryCrtl = require('./controllers/category');
 var productCrtl = require('./controllers/products');
-
+var indexCrtl = require('./controllers/index');
+var musicCrtl = require('./controllers/music');
+var movieCtrl = require('./controllers/movies');
+var foodCtrl = require('./controllers/food');
+var carCtrl = require('./controllers/cars');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
-//var upload = multer({ dest: 'posters/products' });
+
 
 module.exports = function (app) {
 //----------- HOME -----------------------------
-    app.get('/', welcomeCtrl.userWelcome);
+    app.get('/', indexCrtl.welcome);
 
 //-----------NAV-BAR-----------------------------
     // about-------------------------
@@ -33,6 +37,7 @@ module.exports = function (app) {
     // users-------------------------
     app.get('/dashboard', welcomeCtrl.userWelcomeDash);
     app.get('/dashboard/users', dashboardUsers.userTable);
+
     app.get('/dashboard/editUsers', dashboardUsers.editUserGET);
     app.post('/dashboard/editUsers', dashboardUsers.editUserPOST);
     app.get('/dashboard/deleteUsers', dashboardUsers.deleteUser);
@@ -50,12 +55,16 @@ module.exports = function (app) {
     app.get('/dashboard/deleteProducts', productCrtl.deleteProduct);
 
     // cars-------------------------
-    app.get('/products/cars', welcomeCtrl.userWelcomeCars); //change name of controllers here
+    app.get('/products/cars', carCtrl.findCarProducts); //change name of controllers here
     //food-------------------------
-    app.get('/products/food', welcomeCtrl.userWelcomeFood);
+    app.get('/products/food', foodCtrl.findFoodProducts);
     // movies-------------------------
-    app.get('/products/movies', welcomeCtrl.userWelcomeMovies);
+    app.get('/products/movies', movieCtrl.findMoviesProducts);
     // music-------------------------
-    app.get('/products/music', welcomeCtrl.userWelcomeMusic);
+    app.get('/products/music', musicCrtl.findMusicProducts);
+
+
+
+    app.get('/products/pizza', musicCrtl.findMusicProducts);
 
 };

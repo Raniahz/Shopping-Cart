@@ -6,9 +6,9 @@
 <a class="button-link" href="/dashboard/editUsers">
     <input class="createUser-button" type="submit" value="create new user"/>
 </a>
-
+<div id="deleteErr"></div>
 <div id="table">
-    <table>
+    <table id="userTable">
         <tr class="header">
             <td>Names</td>
             <td>Email</td>
@@ -20,7 +20,7 @@
         <tr>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.date  | date('m/d/Y, h:ia') }}</td>
+            <td>{{ user.date | date('m/d/Y, h:ia') }}</td>
             <td>{{ user.roles }}</td>
             <td class="button"><a class="button-link" href="/dashboard/deleteUsers?_id={{user._id | safe}}">
                 <input class="delete-button" type="submit" value="delete"/>
@@ -34,6 +34,22 @@
     </table>
 </div>
 
+<script>
+    var errors = '{{ errors |json | safe }}';
+    var query = '{{ query | json | safe }}';
+    console.log(JSON.parse(errors));
+    console.log(errors);
+    errors = JSON.parse(errors);
+    console.log(query.email);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if(!elem){
+            console.log('err');
+        }
+        elem.innerHTML = errors[i].message;
+    }
+</script>
 {{ pagination.paginationLinks("/dashboard/users", page, pages) }}
 
 

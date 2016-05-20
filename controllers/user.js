@@ -70,7 +70,7 @@ exports.loginUser = function (req, res) {
         password: req.body.password
     };
     console.log("main validation function:");
-  //  var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
+   var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
     var passRes = formValidate.validatePassword(req.body.password); // ----setting variable for password
     if (emailRes) {
         errors.push(emailRes);
@@ -110,6 +110,7 @@ exports.loginUser = function (req, res) {
     })
 };
 exports.logOutUser = function (req, res) {
+
     console.log('logging out cookie', req.cookies);
     // console.log(req.cookies.user);
     var id = req.cookies.sessionUser;

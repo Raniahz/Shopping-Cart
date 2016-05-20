@@ -1,57 +1,8 @@
-{{% extends "../dashboardLayout.html" %}
-
-
+{% extends "../dashboardLayout.html" %}
+{% import "../productLayout.html" as productLayout %}
 {% block content %}
 
 <!----------CONTENT----------------------------->
-<h1>Movies</h1>
-<p class="description">A list of our greatest movies.</p>
-<div class="movies-content-container">
-    <div class="top-right box">
-        <img class="snatch" src="../../images/snatch.jpg">
-        <h3>Snatch</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-    <div class="top-left box">
-        <img class="lebowski" src="../../images/big-lebowski.jpg">
-        <h3>Big Lebowski</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
 
-    </div>
-    <div class="bottom-left box">
-        <img class="pulp" src="../../images/pulpfiction.jpg">
-        <h3>Pulp Fiction</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-    <div class="bottom-right box">
-        <img class="lionking" src="../../images/lionking.jpeg">
-        <h3>Lion King</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-</div>
-
+{{ productLayout.productLayout("Movies","A list of our greatest movies.","snatch", products) }}
 {% endblock %}

@@ -8,7 +8,7 @@
 </a>
 
 <div id="table">
-    <table>
+    <table id="categoryTable">
         <tr class="header">
             <td>Category Names</td>
             <td>Slug</td>
@@ -18,7 +18,6 @@
             {% for categories in categories %}
             <td>{{categories.name}}</td>
             <td>{{categories.slug }}</td>
-
             <td class="button"><a class="button-link" href="/dashboard/deleteCategory?_id={{categories._id | safe}}">
                 <input class="delete-button" type="submit" value="delete"/>
             </a>

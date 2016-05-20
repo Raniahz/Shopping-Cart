@@ -22,11 +22,20 @@ exports.userTable = function (req, res) {
             if (err) {
                 console.log(err);
             }
+            if (user) {
+                var role = user.roles;
+                if (role !== 'Admin') {
+                    console.log('user is not an admin');
+                  return  res.redirect('/')
+                }
+            }
             User.find({}).limit(perPage).skip(perPage * page).sort({date: -1}).exec(function (err, users) {
                 if (err) {
                     console.log(err);
                     return err
                 }
+                //console.log('page', page);
+                //console.log('pages', pages);
                 //console.log('-------',users);
                 res.render('views/dashboard/users', {
                     breadcrumbs: breadcrumbs,
@@ -42,15 +51,18 @@ exports.userTable = function (req, res) {
 exports.editUserGET = function (req, res) {
     console.log('id', req.query._id);
     var id = req.query._id;
-    var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {name: 'Users', link: '/dashboard/users'}, {name: 'Create User', link: 'null'}];
-    if(id){
-        breadcrumbs[2].name ='Edit User'
+    var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {
+        name: 'Users',
+        link: '/dashboard/users'
+    }, {name: 'Create User', link: 'null'}];
+    if (id) {
+        breadcrumbs[2].name = 'Edit User'
     }
     User.findById(id, function (err, user) {
         if (err) {
             console.log(err);
         }
-        res.render('./views/dashboard/editUsers', { breadcrumbs: breadcrumbs, user: user})
+        res.render('./views/dashboard/editUsers', {breadcrumbs: breadcrumbs, user: user})
     });
 
 };
@@ -63,12 +75,15 @@ exports.editUserPOST = function (req, res) {
     var emailRes = validateForm.validateEmail(req.body.email);
     var passRes = validateForm.validatePassword(req.body.password);
     var rePassRes = validateForm.validateRepassword(req.body.repassword, req.body.password);
-    var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {name: 'Users', link: '/dashboard/users'}, {name: 'Create User', link: 'null'}];
+    var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {
+        name: 'Users',
+        link: '/dashboard/users'
+    }, {name: 'Create User', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name ='Edit User';
+        breadcrumbs[2].name = 'Edit User';
         console.log('there is an id, so use dashbardpassword validation ');
-        passRes = validateForm.validatePasswordDashboard(req.body.password);
-        rePassRes = validateForm.validateRepasswordDashboard(req.body.repassword, req.body.password);
+        passRes = validateForm.validatePasswordExistingUser(req.body.password);
+        rePassRes = validateForm.validateRepasswordExistingUser(req.body.repassword, req.body.password);
     }
     if (nameRes) {
         errors.push(nameRes);
@@ -112,7 +127,7 @@ exports.editUserPOST = function (req, res) {
         console.log('if id is present');
         q._id = {$ne: id};
     }
-   // console.log(q);
+    // console.log(q);
     User.findOne(q).exec(function (err, user) {
         console.log('user-------', user);
         if (user) {
@@ -148,11 +163,22 @@ exports.editUserPOST = function (req, res) {
 exports.deleteUser = function (req, res) {
     console.log('id', req.query._id);
     var id = req.query._id;
-    User.findByIdAndRemove(id, function (err, user) {
+    var sessionID = req.cookies.sessionUser;
+    getUser.findByUserId(sessionID, function (err, user) {
         if (err) {
             console.log(err);
-            return res.render('./views/dashboard/editUsers', {})
         }
-        res.redirect('/dashboard/users');
+        console.log('user', user);
+        if (user._id == id) {
+            console.log('cant delete self');
+            return res.redirect('/dashboard/users')
+        }
+        User.findByIdAndRemove(id, function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.render('./views/dashboard/editUsers', {})
+            }
+            res.redirect('/dashboard/users');
+        });
     });
 };

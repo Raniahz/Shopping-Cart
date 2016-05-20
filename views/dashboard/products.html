@@ -1,6 +1,5 @@
 {% extends "../dashboardLayout.html" %}
 
-
 {% import "pagination.html" as pagination %}
 
 {% block content %}
@@ -9,41 +8,44 @@
 </a>
 
 <div id="table">
-    <table>
+    <table id="productTable">
         <tr class="header">
+
             <td>Name</td>
             <td>Category</td>
             <td>Slug</td>
-            <td>Image</td>
             <td>Description</td>
             <td>Quantity</td>
             <td>Price</td>
             <td>Discount Price</td>
-            <td>Attribute: Key</td>
-            <td>Attribute: Value</td>
+            <td>Attributes</td>
             <td>Edit</td>
+
         </tr>
         {% for product in products %}
         <tr>
             <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
+            <td>{{ product.category.name }}</td>
             <td>{{ product.slug }}</td>
-            <td>{{ product.image }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.price }}</td>
             <td>{{ product.discountPrice }}</td>
+            <td>
+            {% for attribute in product.attributes %}
+           <div> {{ attribute.key }}: {{ attribute.value }},</div>
+            {% endfor %}
+            </td>
 
-            <td>{{ product.attributes[0] }}</td>
-            <td>{{ product.attributes[0] }}</td>
             <td class="button">
-                <a class="button-link" href="/dashboard/deleteProducts?_id={{product._id | safe}}">
-                <input class="delete-button" type="submit" value="delete"/>
-            </a>
+                <a  id="deleteLink" class="button-link" href="/dashboard/deleteProducts?_id={{product._id | safe}}">
+                    <input class="delete-button" type="submit" value="delete"/>
+                </a>
                 <a class="button-link" href="/dashboard/editProducts?_id={{product._id | safe}}">
                     <input class="edit-button" type="submit" value="edit"/>
                 </a>
             </td>
+
         </tr>
         {% endfor %}
     </table>
@@ -52,3 +54,12 @@
 {{ pagination.paginationLinks("/dashboard/products", page, pages) }}
 
 {% endblock %}
+<!--<script>-->
+    <!--deleteAlert = function() {-->
+        <!--var alert = window.confirm("are you sure?");-->
+        <!--if (alert == true) {-->
+            <!--var deleteButton = document.getElementsByClassName("deleteLink")-->
+
+        <!--}-->
+    <!--};-->
+<!--</script>-->

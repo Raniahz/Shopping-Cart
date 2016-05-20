@@ -1,56 +1,10 @@
 {% extends "../dashboardLayout.html" %}
-
+{% import "../productLayout.html" as productLayout %}
 {% block content %}
 
 <!----------CONTENT----------------------------->
-<h1>Food</h1>
-<p class="description">A list of our finest fucking foods.</p>
-<!------ FOOD PICTURES---------------->
-<div class="food-content-container">
-    <div class="top-right box">
-        <img class="pizza" src="../../images/pizza.png">
-        <h3>Pizza</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-    <div class="top-left box">
-        <img class="sushi" src="../../images/sushi.png">
-        <h3>Sushi</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-    <div class="bottom-left box">
-        <img class="steak" src="../../images/steak.png">
-        <h3>Steak</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-    <div class="bottom-right box">
-        <img class="icecream" src="../../images/icecream.png">
-        <h3>Ice Cream</h3>
-        <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
-        <p><strike>$12.99</strike> $7.99</p>
-        quantity:
-        <input type="number" name="quantity" min="1" max="5"> </br>
-        <input type="submit" value="buy it now" class="quantity-button">
-    </div>
-</div>
+
+{{ productLayout.productLayout("Food","A list of our finest fucking foods.","pizza", products) }}
+
 
 {% endblock %}
