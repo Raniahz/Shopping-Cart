@@ -1,0 +1,8 @@
+{% extends "../mainLayout.html" %}
+{% import "../productLayout.html" as productLayout %}
+{% block content %}
+
+<!----------CONTENT----------------------------->
+
+{{ productLayout.productLayout("Movies","A list of our greatest movies.","productPoster", products) }}
+{% endblock %}

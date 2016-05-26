@@ -1,5 +1,4 @@
 var userCtrl = require('./controllers/user');
-var welcomeCtrl = require('./controllers/welcome');
 var dashboardUsers = require('./controllers/dashUsers');
 var categoryCrtl = require('./controllers/category');
 var productCrtl = require('./controllers/products');
@@ -8,19 +7,30 @@ var musicCrtl = require('./controllers/music');
 var movieCtrl = require('./controllers/movies');
 var foodCtrl = require('./controllers/food');
 var carCtrl = require('./controllers/cars');
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
-
+var reviewCtrl = require('./controllers/reviews');
+var multer = require('multer');
+var upload = multer({dest: 'uploads/'});
+var getUser = require('./lib/getUser.js');
+var userRole = require('./lib/userRole.js');
 
 module.exports = function (app) {
-//----------- HOME -----------------------------
-    app.get('/', indexCrtl.welcome);
 
-//-----------NAV-BAR-----------------------------
-    // about-------------------------
-    app.get('/about', welcomeCtrl.userWelcomeAbout);
-    // contact-------------------------
-    app.get('/contact', welcomeCtrl.userWelcomeContact);
+//----------- HOME -----------------------------
+    app.use('/', function (req, res, next) {
+        var id = req.cookies.sessionUser;
+        getUser.findByUserId(id, function (err, user) {
+            if (err) {
+                console.log(err);
+            }
+            if (user) {
+              //  console.log('user found');
+                req.currentUser = user;
+            }
+           // console.log('user', user);
+            next()
+        })
+    });
+    app.get('/', indexCrtl.welcome);
 
 //-------- LOGIN /SIGNUP/ LOGOUT ---------------------
     app.post('/signup', userCtrl.signupUser);
@@ -35,36 +45,55 @@ module.exports = function (app) {
 
 //-----------DASHBOARD-----------------------------
     // users-------------------------
-    app.get('/dashboard', welcomeCtrl.userWelcomeDash);
-    app.get('/dashboard/users', dashboardUsers.userTable);
-
-    app.get('/dashboard/editUsers', dashboardUsers.editUserGET);
-    app.post('/dashboard/editUsers', dashboardUsers.editUserPOST);
+    app.use('/dashboard', function (req, res, next) {
+        var id = req.cookies.sessionUser;
+        userRole.userRole(id, function (err, user) {
+            if (user) {
+                next();
+            }
+            else {
+                return res.redirect('/')
+            }
+        });
+    });
+    app.get('/dashboard', function (req, res) {
+        var sessionUser = req.currentUser;
+        var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}];
+        res.render('views/dashboard', {breadcrumbs: breadcrumbs, user: sessionUser})
+    });
+    app.get('/dashboard/users', dashboardUsers.fillUsersTable);
+    app.get('/dashboard/editUsers', dashboardUsers.createOrEditUserGET);
+    app.post('/dashboard/editUsers', dashboardUsers.createOrEditUserPOST);
     app.get('/dashboard/deleteUsers', dashboardUsers.deleteUser);
 
+    //----REVIEWS-----------------------------
+    app.get('/dashboard/reviews', reviewCtrl.fillReviewTable);
+    app.get('/dashboard/deleteReview', reviewCtrl.deleteReview);
+    app.get('/dashboard/acceptReview', reviewCtrl.acceptReview);
+
     // categories-------------------------
-    app.get('/dashboard/categories', categoryCrtl.categoryTable);
-    app.get('/dashboard/editCategory', categoryCrtl.editCategoryGET);
-    app.post('/dashboard/editCategory', categoryCrtl.editCategoryPOST);
+    app.get('/dashboard/categories', categoryCrtl.fillCategoryTable);
+    app.get('/dashboard/editCategory', categoryCrtl.createOrEditCategoryGET);
+    app.post('/dashboard/editCategory', categoryCrtl.createOrEditCategoryPOST);
     app.get('/dashboard/deleteCategory', categoryCrtl.deleteCategory);
 
-    // products-----------------------------
-    app.get('/dashboard/products', productCrtl.productTable);
-    app.get('/dashboard/editProducts', productCrtl.editProductGET);
-    app.post('/dashboard/editProducts', upload.single('poster'), productCrtl.editProductPOST);
+    //----PRODUCTS-----------------------------
+    app.use('/products/:slug', productCrtl.getProductSlug);
+    app.get('/products/:slug', productCrtl.individualProductPageGET);
+    app.post('/products/:slug', productCrtl.individualProductPagePOST);
+
+    app.get('/dashboard/products', productCrtl.fillProductTable);
+    app.get('/dashboard/editProducts', productCrtl.createOrEditProductGET);
+    app.post('/dashboard/editProducts', upload.single('poster'), productCrtl.createOrEditProductPOST);
     app.get('/dashboard/deleteProducts', productCrtl.deleteProduct);
 
     // cars-------------------------
-    app.get('/products/cars', carCtrl.findCarProducts); //change name of controllers here
+    app.get('/categories/cars', carCtrl.findCarProducts); //change name of controllers here
     //food-------------------------
-    app.get('/products/food', foodCtrl.findFoodProducts);
+    app.get('/categories/food', foodCtrl.findFoodProducts);
     // movies-------------------------
-    app.get('/products/movies', movieCtrl.findMoviesProducts);
+    app.get('/categories/movies', movieCtrl.findMoviesProducts);
     // music-------------------------
-    app.get('/products/music', musicCrtl.findMusicProducts);
-
-
-
-    app.get('/products/pizza', musicCrtl.findMusicProducts);
+    app.get('/categories/music', musicCrtl.findMusicProducts);
 
 };

@@ -1,20 +1,20 @@
 var mongoose = require('mongoose');
 
-var productSchema = new mongoose.Schema({ //schema
-    name: String,
-    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
-    slug: String,
-    imageUrl: String,
-    imagePath: String,
-    description: String,
-    rating: Number,
-    quantity: Number,
-    price: Number,
+var KNproductSchema = new mongoose.Schema({ //schema
+    name: {type: String},
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'KNCategory'},
+    slug: {type: String, trim: true},
+    imageUrl: {type: String},
+    imagePath: {type: String},
+    description: {type: String},
+    rating: {type: Number},
+    quantity: {type: Number},
+    price: {type: Number},
     date: {type: Date, default: Date.now},
-    discountPrice: Number,
-    attributes: Array
+    discountPrice: {type: Number},
+    attributes: {type: Array}
 });
 
-mongoose.model('Product', productSchema); // model
+mongoose.model('KNProduct', KNproductSchema); // model
 
 

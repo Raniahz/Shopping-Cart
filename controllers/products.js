@@ -1,72 +1,63 @@
 var mongoose = require('mongoose');
 var config = require('../config');
 var fs = require('fs');
-var Product = mongoose.model('Product');
-var Category = mongoose.model('Category');
-var User = mongoose.model('User');
-var SessionUser = mongoose.model('SessionUser');
-var getUser = require('../lib/getUser.js');
+var KNProduct = mongoose.model('KNProduct');
+var KNCategory = mongoose.model('KNCategory');
+var KNUser = mongoose.model('KNUser');
+var KNSessionUser = mongoose.model('KNSessionUser');
+var KNReviews = mongoose.model('KNReviews');
 var validation = require('../lib/productFormValidation.js');
 var productPoster = require('../lib/productPosters.js');
 var errPath = productPoster.makeProductDirectories();
 console.log('errPath', errPath);
 //console.log(config);
-//console.log(config.root);
 
-exports.productTable = function (req, res) { // need to change this to also send back stuff from db
-    var id = req.cookies.sessionUser;
+exports.fillProductTable = function (req, res) { // need to change this to also send back stuff from db
+    var sessionUser = req.currentUser;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {name: 'Products', link: 'null'}];
     var perPage = 5;
     var page = parseInt(req.query.page) - 1 || 0;
-    // console.log('page', page);
-    Product.count({}).exec(function (err, count) {
-        //  console.log('page number', req.query.page);
+    KNProduct.count().exec(function (err, count) {
         var pages = [];
         var maxPage = Math.ceil(count / perPage);
         for (var i = 0; i < maxPage; i++) {
             pages.push(i);
         }
-        getUser.findByUserId(id, function (err, user) {
+        KNProduct.find().limit(perPage).skip(perPage * page).populate('category').sort({date: -1}).exec(function (err, products) {
             if (err) {
                 console.log(err);
+                return err
             }
-            Product.find({}).limit(perPage).skip(perPage * page).populate('category').sort({date: -1}).exec(function (err, products) {
-                if (err) {
-                    console.log(err);
-                    return err
-                }
-                res.render('./views/dashboard/products', {
-                    breadcrumbs: breadcrumbs,
-                    user: user,
-                    products: products,
-                    pages: pages,
-                    page: page
-                })
-            });
+            res.render('./views/dashboard/products', {
+                breadcrumbs: breadcrumbs,
+                user: sessionUser,
+                products: products,
+                pages: pages,
+                page: page
+            })
         });
     });
 };
-exports.editProductGET = function (req, res) {
-    console.log('id', req.query._id);
+exports.createOrEditProductGET = function (req, res) {
     var id = req.query._id;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {
         name: 'Products',
         link: '/dashboard/products'
     }, {name: 'Create Products', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name = 'Edit Products'
+        breadcrumbs.push({name: 'Edit Products'});
     }
-    Category.find({}, function (err, categories) {
+    KNCategory.find().exec(function (err, categories) {
         if (err) {
             console.log(err);
             return err
         }
-        Product.findById(id, function (err, products) {
+        KNProduct.findById(id, function (err, products) {
             if (err) {
                 console.log(err);
                 return err
             }
-            console.log('products', products);
+            //  console.log('products', products);
             res.render('./views/dashboard/editProducts', {
                 breadcrumbs: breadcrumbs,
                 products: products,
@@ -75,10 +66,10 @@ exports.editProductGET = function (req, res) {
         });
     });
 };
-exports.editProductPOST = function (req, res) {
-    console.log('req body', req.body);
+exports.createOrEditProductPOST = function (req, res) {
+    //console.log('req body', req.body);
     var id = req.body.id;
-    console.log('req.file-----', req.file);
+    //  console.log('req.file-----', req.file);
     if (req.file) {
         var filePath = req.file.path;
     }
@@ -89,7 +80,7 @@ exports.editProductPOST = function (req, res) {
     if (id) {
         breadcrumbs.push({name: 'Edit Products'});
     }
-    Category.find({}, function (err, categories) {
+    KNCategory.find().exec(function (err, categories) {
         if (err) {
             console.log(err);
             return err
@@ -101,7 +92,6 @@ exports.editProductPOST = function (req, res) {
         var imgRes = validation.validateImage(req.file);
         var quantityRes = validation.validateQuantity(req.body.quantity);
         var priceRes = validation.validatePrice(req.body.price);
-
         if (id) {
             imgRes = undefined;
         }
@@ -124,7 +114,7 @@ exports.editProductPOST = function (req, res) {
             errors.push(priceRes)
         }
         if (errors != 0) {
-            console.log('validation errors');
+            //  console.log('validation errors');
             if (req.file) {
                 productPoster.deleteProductFile(filePath);
             }
@@ -137,10 +127,9 @@ exports.editProductPOST = function (req, res) {
         }
         var slugQuery = {slug: new RegExp(req.body.slug, 'i')};
         if (id) {
-
             slugQuery._id = {$ne: id};
         }
-        Product.findOne(slugQuery).exec(function (err, product) {
+        KNProduct.findOne(slugQuery).exec(function (err, product) {
             if (product) {
                 if (req.file) {
                     productPoster.deleteProductFile(filePath);
@@ -166,9 +155,9 @@ exports.editProductPOST = function (req, res) {
                 }
             }
             //console.log('looking for FUCKING BUGS 1');
-            Product.findOne({_id: id}, function (err, product) {
+            KNProduct.findOne({_id: id}, function (err, product) {
                 if (!product) {
-                    product = new Product();
+                    product = new KNProduct();
                 }
                 //console.log('looking for FUCKING BUGS 2');
                 var productPath = config.productPath;
@@ -176,7 +165,7 @@ exports.editProductPOST = function (req, res) {
                     var fileName = req.file.filename; //array with name of file
                     var posterURL = productPath.split('/');
                     var originalNameArray = req.file.originalname.toLowerCase().split('.'); //this gets the "jpg"
-                    console.log('product existing file--------------', product.imagePath);
+                    //  console.log('product existing file--------------', product.imagePath);
                     if (id) {
                         productPoster.deleteProductFile(product.imagePath);
                     }
@@ -206,11 +195,11 @@ exports.editProductPOST = function (req, res) {
                         var originalNameArray = req.file.originalname.toLowerCase().split('.'); //this gets the "jpg"
                         var oldPath = req.file.path; //the old path
                         fs.rename(oldPath, root + '/' + productPath + '/' + fileName + '.' + originalNameArray[1], function (err) {
-                            console.log('rename function');
+                            //console.log('rename function');
                             if (err) {
                                 console.log('other rename err', err);
                             }
-                            console.log('product', product);
+                            //  console.log('product', product);
                             res.redirect('/dashboard/products')
                         });
                     }
@@ -223,18 +212,60 @@ exports.editProductPOST = function (req, res) {
     });
 };
 exports.deleteProduct = function (req, res) {
-    console.log('id', req.query._id);
     var id = req.query._id;
-
-        Product.findByIdAndRemove(id, function (err, product) {
+    KNProduct.findByIdAndRemove(id, function (err, product) {
+        if (err) {
+            console.log(err);
+            return res.render('./views/dashboard/editProducts', {})
+        }
+        if (product) {
+            productPoster.deleteProductFile(product.imagePath);
+            res.redirect('/dashboard/products');
+        }
+    });
+};
+exports.getProductSlug = function (req, res, next) {
+    KNCategory.find().exec(function (err, category) {
+        if (err) {
+            console.log(err);
+        }
+        KNProduct.findOne({slug: req.params.slug}).populate('category').exec(function (err, product) {
             if (err) {
-                console.log(err);
-                return res.render('./views/dashboard/editProducts', {})
+                console.log('err', err);
             }
-            if(product) {
-                productPoster.deleteProductFile(product.imagePath);
-                res.redirect('/dashboard/products');
+            if (product) {
+                req.product = product;
+                req.category = category;
             }
+            next();
         });
+    });
+};
+exports.individualProductPageGET = function (req, res, next) {
+    var sessionUser = req.currentUser;
+    var product = req.product;
+    KNCategory.find().exec(function (err, categories) {
+        if (err) {
+            console.log('no categories found', err)
+        }
+        KNReviews.find().exec(function (err, reviews) {
+            if (err) {
+                console.log('err');
+            }
+         //   console.log('reviews',reviews);
+            res.render('./views/individualProduct', {reviews:reviews, user: sessionUser, categories: categories, product: product})
+        });
+    });
+};
+exports.individualProductPagePOST = function (req, res, next) {
+    // console.log('req.body', req.body);
+    var review = new KNReviews(req.body);
+    review.save(function (err) {
+        if (err) {
+            console.log(err);
+        }
+        //  console.log('redirect');
+        return res.redirect('back')
+    });
 
 };

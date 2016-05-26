@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
-var categorySchema = new mongoose.Schema({
-    name: String,
-    slug: String,
+var KNCategorySchema = new mongoose.Schema({
+    name: {type: String},
+    slug: {type: String, trim: true},
     date: {type: Date, default: Date.now}
 });
 
-mongoose.model('Category', categorySchema);
+mongoose.model('KNCategory', KNCategorySchema);

@@ -11,6 +11,7 @@ require('./models/user');
 require('./models/session');
 require('./models/category');
 require('./models/products');
+require('./models/reviews');
 //require('./public/script');
 
 var swig = require('swig');
@@ -32,18 +33,6 @@ app.use(function (req, res, next) { // ----CORS to override
 });
 app.use(cookieParser());
 
-app.use('/dashboard', function (req, res, next) {
-    getUser.findByUserId(id, function (err, user) {
-        if (err) {
-            console.log(err);
-        }
-        console.log('user.roles',user.roles);
-        if (user) {
-            var role = user.roles;
-        }
-        next();
-    });
-});
 
 app.engine('html', swig.renderFile); // set sup view engine
 app.set('view engine', 'html');

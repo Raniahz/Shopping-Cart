@@ -1,18 +1,18 @@
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({ //schema
-    name:  String,
+var KNUserSchema = new mongoose.Schema({ //schema
+    name:  {type: String},
     //name: {type: String, normalized: String },
-    email: String,
-    mobile: Number,
-    age: Number,
-    gender: String,
-    password: String,
-    rePassword: String,
+    email: {type: String},
+    mobile: {type: Number},
+    age: {type: Number},
+    gender: {type: String},
+    password: {type: String},
+    rePassword: {type: String},
     date: {type: Date, default: Date.now},
     roles: {type: String, default: 'User'}
 });
 
-mongoose.model('User', userSchema); // model
+mongoose.model('KNUser', KNUserSchema); // model
 
 

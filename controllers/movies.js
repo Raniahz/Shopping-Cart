@@ -1,30 +1,30 @@
 var mongoose = require('mongoose');
 var config = require('../config');
-var Product = mongoose.model('Product');
-var Category = mongoose.model('Category');
-var User = mongoose.model('User');
-var SessionUser = mongoose.model('SessionUser');
-var getUser = require('../lib/getUser.js');
+var KNProduct = mongoose.model('KNProduct');
+var KNCategory = mongoose.model('KNCategory');
+var KNUser = mongoose.model('KNUser');
+var KNSessionUser = mongoose.model('KNSessionUser');
 
 exports.findMoviesProducts = function (req, res) {
-    var id = req.cookies.sessionUser;
+    var sessionUser = req.currentUser;
     var breadcrumbs = [{name: 'Products', link: '/dashboard/products'}, {name: 'Movies', link: 'null'}];
-    getUser.findByUserId(id, function (err, user) {
+    KNCategory.findOne({name: 'Movies'}, function (err, category) {
         if (err) {
-            console.log(err);
+            console.log('no category found', err);
         }
-        Category.findOne({name: 'movies'}, function (err, category) {
-            if (err) {
-                console.log('no category found', err);
-            }
+        console.log('category', category);
+        if (category) {
             var categoryID = category._id;
-
-            Product.find({category: categoryID}, function (err, products) {
-                //console.log('products', products);
+        }
+        KNProduct.find({category: categoryID}, function (err, products) {
+            if (err) {
+                console.log('no products found', err)
+            }
+            KNCategory.find().exec(function (err, categories) {
                 if (err) {
-                    console.log('no products found', err)
+                    console.log('no categories found', err)
                 }
-                res.render('views/products/movies', {breadcrumbs: breadcrumbs, products: products, user: user})
+                res.render('views/categories/movies', {breadcrumbs: breadcrumbs, categories: categories, products: products, user: sessionUser})
             });
         });
     });

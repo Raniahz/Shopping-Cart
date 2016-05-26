@@ -1,4 +1,4 @@
-{% macro productLayout(title, description, imgClass, products, imgLink) %}
+{% macro productLayout(title, description, imgClass, products) %}
 
 <h1>{{ title }}</h1>
 <p class="description">{{ description }}</p>
@@ -6,7 +6,7 @@
 <div class="content-container">
     {% for product in products %}
     <div class="top-right box">
-        <a href ="{{ imgLink }}">
+        <a href ="/products/{{ product.slug }}">
         <img class="{{ imgClass }}" src="../../posters/{{ product.imageUrl }}"></a>
         <h3>{{ product.category.name }}</h3>
         <h3>{{ product.name }}</h3>

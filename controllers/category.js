@@ -1,63 +1,57 @@
 var mongoose = require('mongoose');
-var Category = mongoose.model('Category');
-var User = mongoose.model('User');
-var SessionUser = mongoose.model('SessionUser');
-var getUser = require('../lib/getUser.js');
+var KNCategory = mongoose.model('KNCategory');
+var KNUser = mongoose.model('KNUser');
+var KNSessionUser = mongoose.model('KNSessionUser');
 var validation = require('../lib/categoryFormValidation.js');
 
-exports.categoryTable = function (req, res) { // need to change this to also send back stuff from db
-    var id = req.cookies.sessionUser;
+exports.fillCategoryTable = function (req, res) { // need to change this to also send back stuff from db
+    var sessionUser = req.currentUser;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {name: 'Categories', link: 'null'}];
     var perPage = 5;
     var page = parseInt(req.query.page) - 1 || 0;
-    console.log('page', page);
-    Category.count({}).exec(function (err, count) {
-        console.log('page number', req.query.page);
+    //console.log('page', page);
+    KNCategory.count().exec(function (err, count) {
+        //  console.log('page number', req.query.page);
         var pages = [];
         var maxPage = Math.ceil(count / perPage);
         for (var i = 0; i < maxPage; i++) {
             pages.push(i);
         }
-        getUser.findByUserId(id, function (err, user) {
+        KNCategory.find().limit(perPage).skip(perPage * page).sort({date: -1}).exec(function (err, categories) {
             if (err) {
                 console.log(err);
-                //return callback(err)
+                return err
             }
-            Category.find({}).limit(perPage).skip(perPage * page).sort({date: -1}).exec(function (err, categories) {
-                if (err) {
-                    console.log(err);
-                    return err
-                }
-                res.render('./views/dashboard/categories', {
-                    breadcrumbs: breadcrumbs,
-                    user: user,
-                    categories: categories,
-                    pages: pages,
-                    page: page
-                })
-            });
+            res.render('./views/dashboard/categories', {
+                breadcrumbs: breadcrumbs,
+                user: sessionUser,
+                categories: categories,
+                pages: pages,
+                page: page
+            })
         });
+
     });
 };
-exports.editCategoryGET = function (req, res) {
-    console.log('id', req.query._id);
+exports.createOrEditCategoryGET = function (req, res) {
+    // console.log('id', req.query._id);
     var id = req.query._id;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {
         name: 'Categories',
         link: '/dashboard/categories'
     }, {name: 'Create Categories', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name = 'Edit Categories'
+        breadcrumbs.push({name: 'Edit Categories'});
     }
-    Category.findById(id, function (err, category) {
+    KNCategory.findById(id, function (err, category) {
         if (err) {
             console.log(err);
         }
         res.render('./views/dashboard/editCategory', {breadcrumbs: breadcrumbs, category: category})
     });
 };
-exports.editCategoryPOST = function (req, res) {
-    console.log('req body', req.body);
+exports.createOrEditCategoryPOST = function (req, res) {
+    //  console.log('req body', req.body);
     var id = req.body.id;
     var errors = [];
     var nameRes = validation.validateName(req.body.name);
@@ -67,7 +61,7 @@ exports.editCategoryPOST = function (req, res) {
         link: '/dashboard/categories'
     }, {name: 'Create Categories', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name = 'Edit Categories'
+        breadcrumbs.push({name: 'Edit Categories'});
     }
     if (nameRes) {
         errors.push(nameRes)
@@ -76,9 +70,9 @@ exports.editCategoryPOST = function (req, res) {
         errors.push(slugRes)
     }
     if (errors != 0) {
-        console.log('errors');
+        // console.log('errors');
         return res.render('./views/dashboard/editCategory', {
-            breadcrumbs:breadcrumbs,
+            breadcrumbs: breadcrumbs,
             errors: errors,
             category: req.body
         })
@@ -86,32 +80,32 @@ exports.editCategoryPOST = function (req, res) {
     var slugQuery = {slug: new RegExp(req.body.slug, 'i')};
     var nameQuery = {name: new RegExp(req.body.name, 'i')};
     if (id) {
-        console.log('there is an id');
+        //  console.log('there is an id');
         slugQuery._id = {$ne: id};
         nameQuery._id = {$ne: id};
     }
-    Category.findOne(slugQuery).exec(function (err, category) {
+    KNCategory.findOne(slugQuery).exec(function (err, category) {
         console.log('look =======');
         if (category) {
-            console.log('existing slug');
+            // console.log('existing slug');
             return res.render('./views/dashboard/editCategory', {
-                breadcrumbs:breadcrumbs,
+                breadcrumbs: breadcrumbs,
                 slugErr: 'existing slug',
                 category: req.body
             })
         }
-        Category.findOne(nameQuery).exec(function (err, category) {
+        KNCategory.findOne(nameQuery).exec(function (err, category) {
             if (category) {
-                console.log('existing name');
+                //  console.log('existing name');
                 return res.render('./views/dashboard/editCategory', {
-                    breadcrumbs:breadcrumbs,
+                    breadcrumbs: breadcrumbs,
                     nameErr: 'existing name',
                     category: req.body
                 })
             }
-            Category.findOne({_id: id}, function (err, category) {
+            KNCategory.findOne({_id: id}, function (err, category) {
                 if (!category) {
-                    category = new Category(req.body);
+                    category = new KNCategory(req.body);
                 }
                 else {
                     category.name = req.body.name;
@@ -121,7 +115,7 @@ exports.editCategoryPOST = function (req, res) {
                     if (err) {
                         return res.render(err)
                     }
-                    console.log('category', category);
+                    // console.log('category', category);
                     res.redirect('/dashboard/categories')
                 })
             })
@@ -131,7 +125,7 @@ exports.editCategoryPOST = function (req, res) {
 
 exports.deleteCategory = function (req, res) {
     var id = req.query._id;
-    Category.findByIdAndRemove(id, function (err, category) {
+    KNCategory.findByIdAndRemove(id, function (err, category) {
         if (err) {
             console.log(err);
             return res.render('./views/dashboard/editCategories', {})

@@ -16,7 +16,7 @@ html, body {
 
 /*------ LOGIN.HTML --------------------------*/
 p {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 a.password p {
@@ -110,29 +110,20 @@ h1 {
     color: #174E59;
     margin: -5px 10px 30px 40px;
 }
-
 h3 {
     margin: 0;
 }
-
 p {
     margin: 0;
     color: #174E59;
 }
-
 .description {
     display: inline-block;
     color: black;
 }
-
-.top-left {
-    /*//margin-top: -22px;*/
-}
-
 .bottom-left {
     margin-top: 22px;
 }
-
 .bottom-right {
     margin-top: 22px;
 }
@@ -142,228 +133,6 @@ p {
     font-weight: 800;
 }
 
-/*----RATINGS--------*/
-.rating {
-    padding-right: 112px;
-    unicode-bidi: bidi-override;
-    direction: rtl;
-}
-
-.rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
-}
-
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-    color: #174E59;
-    content: "★";
-    position: absolute;
-}
-
-/*-----QUANTITY BUTTON--------*/
-.quantity-button {
-    border: 1px black solid;
-    border-radius: 5px;
-    background-color: #174E59;
-    color: white;
-}
-
-/*------------------- FOOD  ---------------------------*/
-.content-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
-    height: 350px;
-    margin: auto;
-}
-
-/*-----images---------*/
-.pizza {
-    width: 45%;
-    height: 45%;
-    transition: .5s;
-}
-
-.pizza:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.sushi {
-    width: 45%;
-    height: 45%;
-    transition: .5s;
-}
-
-.sushi:hover {
-    width: 70%;
-    height: 670%;
-}
-
-.steak {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.steak:hover {
-    width: 75%;
-    height: 75%;
-}
-
-.icecream {
-    width: 30%;
-    height: 30%;
-    transition: .5s;
-}
-
-.icecream:hover {
-    width: 45%;
-    height: 45%;
-}
-
-/*------------------- MOVIES  ---------------------------*/
-
-/*---- IMAGES --------*/
-.snatch {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.snatch:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.lebowski {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.lebowski:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.pulp {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.pulp:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.lionking {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.lionking:hover {
-    width: 70%;
-    height: 70%;
-}
-
-/*------------------- MUSIC  ---------------------------*/
-
-/*-----images--------*/
-.rcp {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.rcp:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.acid {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.acid:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.umph {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.umph:hover {
-    width: 75%;
-    height: 75%;
-}
-
-.led {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.led:hover {
-    width: 70%;
-    height: 70%;
-}
-
-/*--------------- CARS -----------------------*/
-
-/*------images-------*/
-.audi {
-    width: 45%;
-    height: 45%;
-    transition: .5s;
-}
-
-.audi:hover {
-    width: 70%;
-    height: 70%;
-}
-
-.passat {
-    width: 45%;
-    height: 45%;
-    transition: .5s;
-}
-
-.passat:hover {
-    width: 70%;
-    height: 670%;
-}
-
-.subaru {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.subaru:hover {
-    width: 75%;
-    height: 75%;
-}
-
-.nissa {
-    width: 50%;
-    height: 50%;
-    transition: .5s;
-}
-
-.nissa:hover {
-    width: 45%;
-    height: 45%;
-}
 
 /*---------------- MEDIA QUERIES -------------------*/
 @media (max-width: 960px) {
@@ -388,7 +157,6 @@ p {
 }
 
 /*-------------- EDIT USER DASHBOARD  ------------------*/
-
 .editUser-content {
     font-size: 12px;
     width: 30%;
@@ -398,11 +166,9 @@ p {
     color: black;
     text-transform: uppercase;
 }
-
 #deleteMsg {
     margin: auto;
 }
-
 /*-------------- EDIT PRODUCT DASHBOARD  ------------------*/
 #productImage {
     margin-top: 5px;
@@ -413,8 +179,7 @@ p {
     background-color: #174E59;
     color: white;
 }
-.addField, .removeField{
-
+.addField, .removeField {
     margin-top: 5px;
     width: 20px;
     /*border: 1px black solid;*/
@@ -424,17 +189,9 @@ p {
     color: white;
 }
 
-/*.attributeButtons{*/
-    /*display: block;*/
-/*}*/
-
-#addedInput{
-
-}
-/*-------------- EDIT PRODUCT form ------------------*/
-input.removeField{
+input.removeField {
     float: right;
     margin-top: -17px;
-    margin-right:30px;
+    margin-right: 30px;
 
 }

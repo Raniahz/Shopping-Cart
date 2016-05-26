@@ -1,64 +1,54 @@
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var SessionUser = mongoose.model('SessionUser');
+var KNUser = mongoose.model('KNUser');
+var KNSessionUser = mongoose.model('KNSessionUser');
 var getUser = require('../lib/getUser.js');
 var validateForm = require('../lib/signUpFormValidation.js');
 
 //---------- FIND USER for dash-User page
 
-exports.userTable = function (req, res) {
-    var id = req.cookies.sessionUser;
+exports.fillUsersTable = function (req, res) {
+    var sessionUser = req.currentUser;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {name: 'Users', link: 'null'}];
     var perPage = 5;
     var page = parseInt(req.query.page) - 1 || 0;
-    User.count({}).exec(function (err, count) {
-        console.log('page number', req.query.page);
+    KNUser.count().exec(function (err, count) {
         var pages = [];
         var maxPage = Math.ceil(count / perPage);
         for (var i = 0; i < maxPage; i++) {
             pages.push(i);
         }
-        getUser.findByUserId(id, function (err, user) {
-            if (err) {
-                console.log(err);
-            }
-            if (user) {
-                var role = user.roles;
-                if (role !== 'Admin') {
-                    console.log('user is not an admin');
-                  return  res.redirect('/')
-                }
-            }
-            User.find({}).limit(perPage).skip(perPage * page).sort({date: -1}).exec(function (err, users) {
+            //if (user) {
+            //    var role = user.roles;
+            //    if (role !== 'Admin') {
+            //        console.log('user is not an admin');
+            //      return  res.redirect('/')
+            //    }
+            //}
+            KNUser.find().limit(perPage).skip(perPage * page).sort({date: -1}).exec(function (err, users) {
                 if (err) {
                     console.log(err);
                     return err
                 }
-                //console.log('page', page);
-                //console.log('pages', pages);
-                //console.log('-------',users);
                 res.render('views/dashboard/users', {
                     breadcrumbs: breadcrumbs,
-                    user: user,
+                    user: sessionUser,
                     users: users,
                     pages: pages,
                     page: page
                 })
             });
-        });
     });
 };
-exports.editUserGET = function (req, res) {
-    console.log('id', req.query._id);
+exports.createOrEditUserGET = function (req, res) {
     var id = req.query._id;
     var breadcrumbs = [{name: 'Dashboard', link: '/dashboard'}, {
         name: 'Users',
         link: '/dashboard/users'
     }, {name: 'Create User', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name = 'Edit User'
+        breadcrumbs.push({name : 'Edit User'})
     }
-    User.findById(id, function (err, user) {
+    KNUser.findById(id, function (err, user) {
         if (err) {
             console.log(err);
         }
@@ -67,7 +57,7 @@ exports.editUserGET = function (req, res) {
 
 };
 //---------- EDIT USER for dash-editUser
-exports.editUserPOST = function (req, res) {
+exports.createOrEditUserPOST = function (req, res) {
     //console.log('req body', req.body);
     var errors = [];
     var id = req.body.id;
@@ -80,8 +70,8 @@ exports.editUserPOST = function (req, res) {
         link: '/dashboard/users'
     }, {name: 'Create User', link: 'null'}];
     if (id) {
-        breadcrumbs[2].name = 'Edit User';
-        console.log('there is an id, so use dashbardpassword validation ');
+        breadcrumbs.push({name : 'Edit User'});
+        //console.log('there is an id, so use dashboard password validation ');
         passRes = validateForm.validatePasswordExistingUser(req.body.password);
         rePassRes = validateForm.validateRepasswordExistingUser(req.body.repassword, req.body.password);
     }
@@ -128,8 +118,8 @@ exports.editUserPOST = function (req, res) {
         q._id = {$ne: id};
     }
     // console.log(q);
-    User.findOne(q).exec(function (err, user) {
-        console.log('user-------', user);
+    KNUser.findOne(q).exec(function (err, user) {
+        //console.log('user-------', user);
         if (user) {
             console.log('existing user');
             return res.render('./views/dashboard/editUsers', {
@@ -138,10 +128,10 @@ exports.editUserPOST = function (req, res) {
                 user: req.body
             });
         }
-        User.findOne({_id: id}, function (err, user) {
-            console.log('user------', user);
+        KNUser.findOne({_id: id}, function (err, user) {
+           // console.log('user------', user);
             if (!user) {
-                user = new User(query);
+                user = new KNUser(query);
             }
             else {
                 for (var i in query) {
@@ -152,7 +142,7 @@ exports.editUserPOST = function (req, res) {
                 if (err) {
                     return res.render(err);
                 }
-                console.log('user', user);
+               // console.log('user', user);
                 res.redirect('/dashboard/users');
             });
         });
@@ -163,22 +153,17 @@ exports.editUserPOST = function (req, res) {
 exports.deleteUser = function (req, res) {
     console.log('id', req.query._id);
     var id = req.query._id;
-    var sessionID = req.cookies.sessionUser;
-    getUser.findByUserId(sessionID, function (err, user) {
-        if (err) {
-            console.log(err);
-        }
-        console.log('user', user);
-        if (user._id == id) {
+    var sessionUser = req.currentUser;
+    console.log('user', user);
+        if (sessionUser._id == id) {
             console.log('cant delete self');
             return res.redirect('/dashboard/users')
         }
-        User.findByIdAndRemove(id, function (err, user) {
+        KNUser.findByIdAndRemove(id, function (err, user) {
             if (err) {
                 console.log(err);
-                return res.render('./views/dashboard/editUsers', {})
+                return res.render('./views/dashboard/editUsers', {user: sessionUser})
             }
             res.redirect('/dashboard/users');
         });
-    });
 };

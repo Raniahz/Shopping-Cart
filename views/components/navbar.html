@@ -4,26 +4,24 @@
 
         <li><a href="/">Home</a></li>
         {% for category in categories %}
-            <li><a href="/products/{{ category.name}}">{{ category.name}}</a></li>
+            <li><a href="/categories/{{ category.name}}">{{ category.name}}</a></li>
         {% endfor %}
 
         {% block loggedInLink %}
         {% if user != null %}
-      <div id='welcome'>   <li class ="welcomeName">hello {{user.name}} ! </li>
+      <div id='welcome'>   <li class ="welcomeName">hello {{user.name}}!</li>
           <li>  <img class="cart-icon" src="../images/cart.png"></li>
         </div>
         {% endif %}
         {% endblock %}
 
         {% block loggedInLink %}
-
-        {% if user != null && role == 'Admin' %}
+        {% if user != null && user.roles == 'Admin' %}
         <li id="loggedInLink"><a href="/dashboard">Dashboard</a></li>
         {% endif %}
         {% endblock %}
 
         <ul class="nav-right">
-
             <li class="dropdown"><span>Account </span>
                 <div class="drop-content">
                     {% block loggedInLink %}

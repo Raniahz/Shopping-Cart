@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var SessionUser = mongoose.model('SessionUser');
+var KNUser = mongoose.model('KNUser');
+var KNSessionUser = mongoose.model('KNSessionUser');
 var formValidate = require('../lib/signUpFormValidation.js');
 
 exports.signupUser = function (req, res) {
-    console.log('req body', req.body);
+    // console.log('req body', req.body);
     var errors = [];
     var nameRes = formValidate.validateName(req.body.name);
     var emailRes = formValidate.validateEmail(req.body.email);
@@ -42,7 +42,7 @@ exports.signupUser = function (req, res) {
             body: req.body
         });
     }
-    User.findOne({email: req.body.email}, function (err, user) {
+    KNUser.findOne({email: req.body.email}, function (err, user) {
         if (user) {
             console.log('existing user');
             return res.render('./views/signup', {
@@ -52,7 +52,7 @@ exports.signupUser = function (req, res) {
         }
         console.log('not existing user');
 
-        user = new User(req.body);
+        user = new KNUser(req.body);
         user.save(function (err, user) { //this user.save method is making all
             if (err) {
                 return res.render(err);
@@ -62,15 +62,13 @@ exports.signupUser = function (req, res) {
     });
 };
 exports.loginUser = function (req, res) {
-    console.log('req body', req.body);
-    // console.log('cookies', req.cookies);
     var errors = [];
     var query = {
         email: req.body.email,
         password: req.body.password
     };
-    console.log("main validation function:");
-   var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
+    //console.log("main validation function:");
+    var emailRes = formValidate.validateEmail(req.body.email); // -----setting variable for email
     var passRes = formValidate.validatePassword(req.body.password); // ----setting variable for password
     if (emailRes) {
         errors.push(emailRes);
@@ -86,35 +84,31 @@ exports.loginUser = function (req, res) {
             query: query
         });
     }
-    User.findOne(query, function (err, user) {
-        if(err){
+    KNUser.findOne(query, function (err, user) {
+        if (err) {
             console.log(err);
             return res.redirect('./views/login');
         }
-        if(!user){
+        if (!user) {
             return res.render('./views/login', {loginMsg: 'sorry, no existing user'});
         }
-     //   console.log('user', user);
-        var sessUser = new SessionUser();
+        //   console.log('user', user);
+        var sessUser = new KNSessionUser();
         sessUser.user = user._id;
         sessUser.save(function (err, user) {
             if (err) {
                 return console.log(err);
             }
-          //  console.log('new sessionUser', user);
-          //  console.log('right before cookie is made');
+            //  console.log('new sessionUser', user);
             res.cookie('sessionUser', user._id);
-           // console.log('before redirect');
             return res.redirect('/');
         })
     })
 };
 exports.logOutUser = function (req, res) {
-
-    console.log('logging out cookie', req.cookies);
-    // console.log(req.cookies.user);
+    //console.log('logging out cookie', req.cookies);
     var id = req.cookies.sessionUser;
-    SessionUser.findByIdAndRemove(id, function (err, user) {
+    KNSessionUser.findByIdAndRemove(id, function (err, user) {
         if (err) {
             return console.log(err);
         }
