@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Raleway|Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/vertNavBar.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/dashboardTables.css">
+    <link rel="stylesheet" href="../css/productPages.css">
+    <link rel="stylesheet" href="../css/pagination.css">
+</head>
+<body>
+<!--<body onload="welcome()">-->
+<title>{{ title }}</title>
+
+<!-- Wrapper around all of elements -------->
+<div class="wrapper">
+
+    <!------------ NAV-BAR  ----------->
+    {% block navbar %}
+    {% endblock %}
+    <!------------ LEFT SIDE BAR  ----------->
+    {% block lsidebar %}
+    {% endblock %}
+    <!---------------- BREAD CRUMBS  --------->
+    {% block breadcrumbs %}
+    {% endblock %}
+    <!---------------- CONTENT  ------------->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!------------- FOOTER ----------------->
+    <div class="footer">
+        <div class="icons">
+            <a href="#"><img href="#" class="facebook" src="../images/facebook.png"></a>
+            <a href="#"><img class="instagram" src="../images/instagram.png"></a>
+            <a href="#"><img class="twitter" src="../images/twitter.png"></a>
+        </div>
+        <div class="footer-content">
+            <a href="#">Back to top</a>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+
+    <!--<script src="../js/script.js"></script>-->
+    <!--<script src="../js/storage.js"></script>-->
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "../dashboardLayout.html" %}
+
+{% import "pagination.html" as pagination %}
+
+{% block content %}
+
+
+<div id="table">
+    <table id="categoryTable">
+        <tr class="header">
+            <td>User</td>
+            <td>Comment</td>
+            <td>Rating</td>
+            <td>Pending</td>
+        </tr>
+        <tr>
+            {% for reviews in reviews %}
+            {% if reviews.status !== 'Accepted' %}
+            <td>{{reviews.user}}</td>
+            <td>{{reviews.comment }}</td>
+            <td>{{reviews.rating }}</td>
+
+            <td class="button"><a class="button-link" href="/dashboard/deleteReview?_id={{reviews._id | safe}}">
+                <input class="delete-button" type="submit" value="delete"/>
+            </a>
+                <a class="button-link" href="/dashboard/acceptReview?_id={{reviews._id | safe}}">
+                    <input class="delete-button" type="submit" value="accept"/>
+                </a>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+
+{{ pagination.paginationLinks("/dashboard/reviews", page, pages) }}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "../dashboardLayout.html" %}
+
+{% block content %}
+
+
+<div class="editUser-content">
+    <form name="form" action="/dashboard/editUsers" method="post">
+
+        <input type="hidden" name="id" value = "{{ user.id }}" >
+        <p>Name:<br>
+            <input type="text" id="name" name="name" value="{{ user.name }}"/></p>
+        <div id="nameErr"></div>
+        <p>Email:<br>
+            <input type="email" id="email" name="email" value="{{ user.email}}"/></p>
+        <div id="emailErr">{{ emailErr }}</div>
+        <p>Select Role: </p>
+        <select name="roles">
+            <option  value="Admin"  {% if user.roles == 'Admin' %} selected {% endif %}> Admin</option>
+            <option value="User"  {% if user.roles == 'User' %} selected {% endif %} > User</option>
+        </select>
+        <p>Enter password:<br>
+            <input id="password" type="password" name="password"></p>
+        <div id="passwordErr"></div>
+        <p> Re-enter password: <br>
+            <input type="password" name="repassword"></p>
+        <div id="repasswordErr"></div>
+        <input class=sign-sub-button type="submit" value="submit">
+    </form>
+    <div id ="editMessage"> {{ editMessage }}</div>
+</div>
+
+<script>
+    var errors = '{{ errors |json | safe }}';
+    var body = '{{ body |json | safe }}';
+   // console.log('errors parse',JSON.parse(errors));
+    console.log('errors',errors);
+   console.log('body',body);
+    errors = JSON.parse(errors);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if (!elem) {
+            console.log('err');
+
+        }
+        elem.innerHTML = errors[i].message;
+    }
+    </script>
+
+{% endblock %}

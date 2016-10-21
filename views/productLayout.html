@@ -1,0 +1,24 @@
+{% macro productLayout(title, description, imgClass, products) %}
+
+<h1>{{ title }}</h1>
+<p class="description">{{ description }}</p>
+<!------ FOOD PICTURES---------------->
+<div class="content-container">
+    {% for product in products %}
+    <div class="top-right box">
+        <a href ="/products/{{ product.slug }}">
+        <img class="{{ imgClass }}" src="../../posters/{{ product.imageUrl }}"></a>
+        <h3>{{ product.category.name }}</h3>
+        <h3>{{ product.name }}</h3>
+        <div class="rating">
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <p><strike>{{product.price}}</strike> {{product.discountPrice}}</p>
+        quantity:
+        <input type="number" name="quantity" min="1" max="{{ product.quantity }}"> </br>
+        <input type="submit" value="buy it now" class="quantity-button">
+    </div>
+    {% endfor %}
+</div>
+
+{% endmacro %}

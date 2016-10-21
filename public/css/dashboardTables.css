@@ -1,0 +1,81 @@
+#userTable, #categoryTable, #productTable, tr, td {
+    border: 2px solid #174E59;
+
+}
+tr.header {
+    text-align: center;
+    color: #174E59;
+    font-size: 20px;
+    font-weight: bold;
+}
+table {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    width: 85%;
+    border-collapse: collapse;
+}
+
+tr, td {
+    height: 30px;
+}
+
+td {
+    padding-left: 4px;
+    font-size: 15px;
+}
+
+td.button {
+    text-align: center;
+}
+
+.delete-button, .edit-button {
+    width: 65px;
+    border: 1px black solid;
+    border-radius: 5px;
+    background-color: #174E59;
+    color: white;
+}
+/* CREATE BUTTON --------*/
+.createUser-button {
+    font-size: 15px;
+    width: 120px;
+    height: 40px;
+    border: 1px black solid;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #174E59;
+    color: white;
+    margin: 20px 0 0 50px;
+}
+.createCategory-button{
+    font-size: 15px;
+    width: 150px;
+    height: 40px;
+    border: 1px black solid;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #174E59;
+    color: white;
+    margin: 20px 0 0 50px;
+}
+.createProduct-button {
+    font-size: 15px;
+    width: 150px;
+    height: 40px;
+    border: 1px black solid;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #174E59;
+    color: white;
+    margin: 20px 0 0 50px;
+}
+
+.button-link {
+    text-decoration: none;
+
+}
+
+a.button-link:hover {
+    text-decoration: none;
+}

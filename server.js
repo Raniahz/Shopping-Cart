@@ -1,60 +1,47 @@
 /**
  * Created by lamppostgroup on 3/16/16.
  */
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var storage = {};
+var mongoose = require('mongoose');
+var fs = require('fs');
 
-// parse application/x-www-form-urlencoded
-//app.use(bodyParser.urlencoded({ extended: false }));
+require('./models/user');
+require('./models/session');
+require('./models/category');
+require('./models/products');
+require('./models/reviews');
+//require('./public/script');
+
+var swig = require('swig');
+var cookieParser = require('cookie-parser');
+mongoose.connect('mongodb://localhost/test');
+
+//var dir = './models';
+//fs.readdirSync(dir).forEach(function (folder) {
+//    require(dir + '/' + folder + '/model');
+//});
+
+app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({extended: false}));
-
-// ----CORS to override
-app.use(function (req, res, next) {
+app.use(function (req, res, next) { // ----CORS to override
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+app.use(cookieParser());
 
-app.get('/', function (req, res) {
-    res.send(JSON.stringify(storage));
-});
 
-app.get('/store/:key', function (req, res) {
-    if (!req.params.key) {
-        return res.send('BAD KEY');
-    }
-    res.send(storage[req.params.key] ? storage[req.params.key] : '');
-});
+app.engine('html', swig.renderFile); // set sup view engine
+app.set('view engine', 'html');
+app.set('views', __dirname + '/');
+app.set('view cache', false);
 
-app.post('/store', function (req, res) {
-    if (!req.body.key) {
-        return res.send('BAD KEY');
-    }
-    if (!req.body.value) {
-        return res.send('BAD VALUE');
-    }
-    storage[req.body.key] = req.body.value;
+swig.setDefaults({cache: false});
 
-    res.send('ok');
-});
-
-app.post('/store/delete', function (req, res) {
-    console.log(req.body);
-    if (!req.body.key) {
-        return res.send('BAD KEY');
-    }
-    delete storage[req.body.key];
-
-    res.send('ok');
-});
-
-// added this below
-//app.delete('/user', function (req, res) {
-//    res.send('Got a DELETE request at /user');
-//});
+require('./routes.js')(app);
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

@@ -1,0 +1,63 @@
+{% macro individualProductLayout(imgClass, products, user) %}
+
+
+<div class="productContent">
+    <div class="productWrapper">
+        <div class="productPosters">
+            <img class="{{ imgClass }}" src="../../posters/{{ product.imageUrl }}">
+            <!--<h4>{{ product.category.name }}</h4>-->
+
+        </div>
+        <div class="productDetails">
+            <h3>{{ product.name }} </h3>
+            <div class="description">
+                Description:
+                <p>{{ description }}</p>
+            </div>
+            <div class="attribute">
+                {% for attribute in product.attributes %}
+                <p>{{ attribute.key }}:{{ attribute.value }},</p>
+                {% endfor %}
+            </div>
+            <div class="ratingStars">
+                Rating:
+                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+            </div>
+            <div class="price">
+                Price:
+                <p><strike>{{product.price}}</strike> {{product.discountPrice}}</p>
+            </div>
+            <div class="quantity">
+                Quantity:
+                <input type="number" name="quantity" min="1" max="{{ product.quantity }}"></br>
+                <input type="submit" value="buy it now" class="quantity-button">
+            </div>
+        </div>
+    </div>
+    {% if user %}
+    <div class="reviews">
+        <h3>Leave A Review!</h3>
+        <form name="myForm" action="/products/:slug" method="post">
+            <input type="hidden" name="user" value="{{ user._id | safe }}">
+            <div id="reviewStars"><span class="rating">
+        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+            </div>
+            <div><input class="reviewComments" type="text" value="Add Your Comments" name="comment"></div>
+            <div id="reviewButton"><input class="log-sub-button" type="submit" value="submit"/></div>
+        </form>
+    </div>
+    {% endif %}
+    <div class="acceptedReviews">
+        <h3>Product Reviews:</h3>
+        {% for reviews in reviews %}
+        {% if reviews.status == 'Accepted' %}
+        <div class="individualComment">{{ reviews.comment }}</div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+
+</div>
+
+
+{% endmacro %}

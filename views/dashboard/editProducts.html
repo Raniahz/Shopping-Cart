@@ -1,0 +1,70 @@
+{% extends "../dashboardLayout.html" %}
+
+{% block content %}
+
+<div class="editUser-content">
+    <form name="form" action="/dashboard/editProducts" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="id" value="{{ products.id }}">
+        <p> name:<br>
+            <input type="text" id="name" name="name" value="{{ products.name }}"></p>
+        <div id="nameErr"> {{ nameErr }}</div>
+        <p>category:<br></p>
+        <select id="category" name="category">
+
+            {% for category in categories %}
+            <option value="{{ category._id | safe }}" {% if category._id.toString() == products.category.toString() %}
+                    selected {% endif %}>{{ category.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <div id="categoryErr">{{ categoryErr }}</div>
+        <p>slug:<br>
+            <input type="text" id="slug" name="slug" value="{{ products.slug }}"></p>
+        <div id="slugErr">{{ slugErr }}</div>
+        <p>image:<br>
+            <input type="file" id="productImage" name="poster"></p>
+        <div id="imageErr">{{ imageErr }}</div>
+        <p>quantity:<br>
+            <input type="text" id="quantity" name="quantity" value="{{ products.quantity }}"></p>
+        <div id="quantityErr">{{ quantityErr }}</div>
+        <p>price:<br>
+            <input type="text" id="price" name="price" value="{{ products.price }}"></p>
+        <div id="priceErr">{{ priceErr }}</div>
+        <p>discounted price:<br>
+            <input type="text" id="discountPrice" name="discountPrice" value="{{ products.discountPrice }}"></p>
+        <div id="discountPriceErr">{{ discountPriceErr }}</div>
+
+        <div id="attributeDiv">
+            <p>attributes:</p>
+
+            {% for attribute in products.attributes %}
+    <span id='att{{loop.index0}}'>
+        <input type="text" id="addedInput" name="attributesName" value="{{ attribute.key }}"></p>
+        <input type="text" id="addedInput" name="attributesValue" value="{{ attribute.value }}"></p>
+        <input class="removeField" type="button" onclick="return deleteAttribute('att{{loop.index0}}')" value="-"> <br>
+    </span>
+            {% endfor %}
+        </div>
+        <div id="attributeErr">{{ attributeErr }}</div>
+        <input class="addField" type="button" onclick="return attributeFunction()" value="+">
+        <br>
+        <input id="signButt" class="sign-sub-button" type="submit" value="submit">
+    </form>
+    <div id="editMessage"> {{ editMessage }}</div>
+</div>
+
+<script>
+    var errors = '{{ errors |json | safe }}';
+    var body = '{{ body |json | safe }}';
+    errors = JSON.parse(errors);
+    for (var i = 0; i < errors.length; i++) { // ----- loop through array of errors
+        console.log('looping through errors');
+        var elem = document.getElementById(errors[i].field);
+        if (!elem) {
+            console.log('err');
+        }
+        elem.innerHTML = errors[i].message;
+    }
+</script>
+{% endblock %}

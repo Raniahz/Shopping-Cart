@@ -1,0 +1,110 @@
+/*----individual product pages*/
+.productImage {
+    width: 45%;
+    height: 65%;
+    transition: .5s;
+}
+
+.productImage:hover {
+    width: 55%;
+    height: 80%;
+}
+
+.productContent {
+    margin: 0 150px 0 55px;
+}
+.productWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+
+}
+.productDetails{
+    flex-grow: 2;
+}
+.productPosters{
+    flex-shrink: 1;
+}
+/*------INDEX PAGE PRODUCTS------*/
+.productPoster {
+    width: 45%;
+    height: 45%;
+    transition: .5s;
+}
+
+.productPoster:hover {
+    width: 70%;
+    height: 70%;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 350px;
+    margin: auto;
+}
+
+/*----RATINGS--------*/
+.rating {
+    padding-right: 112px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    color: #174E59;
+    content: "★";
+    position: absolute;
+}
+
+/*-----QUANTITY BUTTON--------*/
+.quantity-button {
+    border: 1px black solid;
+    border-radius: 5px;
+    background-color: #174E59;
+    color: white;
+}
+
+/*----REVIEWS--------*/
+.reviews {
+    margin-top: 10%;
+}
+
+.reviewComments {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 20%;
+    height: 55px;
+}
+
+.acceptedReviews {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    display: inline-block;
+    width: 80%;
+    padding: 2%;
+    background-color: #eee;
+}
+
+.individualComment:not(:last-child) {
+    padding-bottom: 10px;
+    padding-top:5px;
+    border-bottom: 1px solid #174E59;
+}
+
+h3 {
+    color: #174E59;
+}
+.description, .attribute, .ratingStars, .price, .quantity{
+    margin-bottom: 10px;
+}

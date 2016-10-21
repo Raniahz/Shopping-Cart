@@ -1,0 +1,33 @@
+<div class="nav-container">
+    <ul class="navbar">
+        <li><a href="/dashboard/products">Products</a></li>
+        <li><a href="/dashboard/categories">Categories</a></li>
+        <li><a href="/dashboard/users">Users</a></li>
+        <li><a href="/dashboard/reviews">Reviews</a></li>
+
+
+        {% block loggedInLink %}
+        {% if user != null %}
+        <div id='welcome'><li class ="welcomeName">hello {{user.name}} !</li>
+            <li>  <img class="cart-icon" src="../images/cart.png"></li>
+        </div>
+        {% endif %}
+        {% endblock %}
+
+        <li id="loggedInLink"><a href="/">Home</a></li>
+
+        <ul class="nav-right">
+            <li class="dropdown"><span>Account </span>
+                <div class="drop-content">
+                    {% block loggedInLink %}
+                        {% if user == null %} <a href="/signup">Sign Up</a> {% endif %}
+                    {% endblock %}
+                    {% block loggedInLink %}
+                        {% if user == null %} <a href="/login">Log In</a> {% endif %}
+                    {% endblock %}
+                    <a href="/logout">Log Out </a>
+                </div>
+            </li>
+        </ul>
+    </ul>
+</div>
